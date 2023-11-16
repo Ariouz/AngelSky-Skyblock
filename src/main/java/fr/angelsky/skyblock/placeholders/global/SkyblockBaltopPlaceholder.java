@@ -16,7 +16,7 @@ public class SkyblockBaltopPlaceholder extends PlaceholderExpansion {
     private final AngelSkyEconomy angelSkyEconomy;
     public SkyblockBaltopPlaceholder(SkyblockInstance skyblockInstance){
         this.skyblockInstance = skyblockInstance;
-        this.angelSkyEconomy = skyblockInstance.getManagerLoader().getAngelSkyEconomy();
+        this.angelSkyEconomy = this.skyblockInstance.getManagerLoader().getAngelSkyEconomy();
     }
 
     @Override
