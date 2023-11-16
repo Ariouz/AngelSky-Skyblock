@@ -1,0 +1,28 @@
+vote:
+  oraxen_key_id: vote_crate_key
+  oraxen_box_id: vote_crate
+  particle_material: COAL_BLOCK
+frozen:
+  oraxen_key_id: frozen_crate_key
+  oraxen_box_id: frozen_crate
+  particle_material: BLUE_ICE
+volcanic:
+  oraxen_key_id: volcanic_crate_key
+  oraxen_box_id: volcanic_crate
+  particle_material: REDSTONE_BLOCK
+jade:
+  oraxen_key_id: jade_crate_key
+  oraxen_box_id: jade_crate
+  particle_material: SLIME_BLOCK
+topaze:
+  oraxen_key_id: topaze_crate_key
+  oraxen_box_id: topaze_crate
+  particle_material: AMETHYST_BLOCK
+angelic:
+  oraxen_key_id: angelic_crate_key
+  oraxen_box_id: angelic_crate
+  particle_material: WHITE_STAINED_GLASS
+demoniac:
+  oraxen_key_id: demoniac_crate_key
+  oraxen_box_id: demoniac_crate
+  particle_material: BLACK_STAINED_GLASS

@@ -1,0 +1,36 @@
+menu:
+  categories:
+    size: 45
+    display: "&7» Shop"
+categories:
+  blocks:
+    display: "&2Blocs"
+    lore:
+      - "&aBlocs"
+      - "&7Lore"
+    enchanted: false
+    item_id: GRASS_BLOCK
+    slot: 12
+  ores:
+    display: "&7Minerais"
+    lore:
+      - "&7Minerais"
+      - "&fLore2"
+    enchanted: true
+    item_id: IRON_INGOT
+    slot: 14
+items:
+  shop:
+    blocks:
+      dirt:
+        display: "&7Terre"
+        lore:
+          - "&7Bloc de terre"
+          - "&aAchat: %buy_price%"
+          - "&cVente: %sell_price%"
+          - "&a"
+        item_id: DIRT
+        buy_price: 5
+        sell_price: 1
+        can_be_bought: true
+        can_be_sold: true

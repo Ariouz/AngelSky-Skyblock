@@ -1,0 +1,19 @@
+vote:
+  loots:
+    stone_16:
+      item:
+        is_oraxen_item: false
+        oraxen_id: null
+        material: STONE
+        amount: 16
+        display_name: "&7Stone"
+        lore:
+          - "&7Stone"
+        enchantments:
+          - "unbreaking:1"
+        flags:
+          - "HIDE_ENCHANTS"
+      probability: 10
+      give_on_win: true
+      commands:
+        - "say %player% a gagné 16 stones"
