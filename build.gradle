@@ -37,6 +37,7 @@ dependencies {
     compileOnly 'net.luckperms:api:5.4'
     compileOnly 'angelsky:angelsky-api:0.0.14'
     compileOnly 'angelsky:skyblockapi:0.0.8'
+    compileOnly 'fr.angelsky:AngelSkyEconomy:1.0'
     compileOnly 'com.bgsoftware:SuperiorSkyblockAPI:2022.9'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly 'me.clip:placeholderapi:2.11.2'
