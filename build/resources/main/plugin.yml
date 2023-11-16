@@ -8,6 +8,7 @@ depend:
   - Vault
   - AngelskyApi
   - SkyblockAPI
+  - AngelSkyEconomy
 commands:
   lobby:
     description: Retourner au lobby
@@ -24,10 +25,14 @@ commands:
     description: Serveur Discord
   vote:
     description: Lien pour voter
+    aliases:
+      - voter
   boutique:
     description: Lien de la boutique du serveur
   niveaux:
     description: Menu des niveaux
+    aliases:
+      - niveau
   shop:
     description: Menu du shop
   upgradetokens:
@@ -36,4 +41,8 @@ commands:
     description: Permet de give une/des clé(s) de caisse à un joueur / tous les joueurs
   eglow:
     description: Ouvre le menu des surbrillances
+  poubelle:
+    description: Ouvre un menu pour jeter ses items non utilisés
+    aliases:
+      - trash
 
