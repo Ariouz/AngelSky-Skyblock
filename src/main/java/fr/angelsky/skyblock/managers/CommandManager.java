@@ -14,6 +14,7 @@ import fr.angelsky.skyblock.commands.player.menus.MenuCommand;
 import fr.angelsky.skyblock.commands.player.menus.NiveauxCommand;
 import fr.angelsky.skyblock.commands.player.menus.ShopCommand;
 import fr.angelsky.skyblock.commands.player.misc.EglowCommand;
+import fr.angelsky.skyblock.commands.player.misc.TrashCommand;
 import fr.angelsky.skyblock.commands.utils.social.BoutiqueCommand;
 import fr.angelsky.skyblock.commands.utils.social.DiscordCommand;
 import fr.angelsky.skyblock.commands.utils.social.VoteCommand;
@@ -44,6 +45,7 @@ public class CommandManager {
 
         // MISC
         Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("eglow")).setExecutor(new EglowCommand(skyblockInstance));
+        Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("poubelle")).setExecutor(new TrashCommand());
 
         // ADMIN
 

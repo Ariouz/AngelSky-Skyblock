@@ -56,11 +56,7 @@ public class ManagerLoader {
         if (skyblockInstance.getSkyblock().getServer().getPluginManager().getPlugin("AngelSkyEconomy") != null){
             this.skyblockInstance.getSkyblock().getLogger().log(Level.INFO, "Instance AngelSkyEconomy recuperee");
             this.angelSkyEconomy = (AngelSkyEconomy) skyblockInstance.getSkyblock().getServer().getPluginManager().getPlugin("AngelSkyEconomy");
-        }else {
-            this.skyblockInstance.getSkyblock().getLogger().log(Level.SEVERE, "Erreur lors de la recuperation de l'API AngelSkyEconomy. Arret du plugin");
-            this.skyblockInstance.getSkyblock().getPluginLoader().disablePlugin(this.getSkyblockInstance().getSkyblock());
         }
-
     }
 
     public void init(){
