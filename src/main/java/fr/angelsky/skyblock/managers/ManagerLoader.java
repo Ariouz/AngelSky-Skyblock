@@ -6,6 +6,7 @@ import fr.angelsky.skyblock.kits.IslandClassKitGiver;
 import fr.angelsky.skyblock.managers.display.actionbar.ActionBarManager;
 import fr.angelsky.skyblock.managers.display.scoreboard.ScoreboardManager;
 import fr.angelsky.skyblock.managers.player.level.LevelManager;
+import fr.angelsky.skyblock.managers.player.level.reward.daily.DailyRewardManager;
 import fr.angelsky.skyblock.managers.region.RegionManager;
 import fr.angelsky.skyblock.managers.server.crates.CrateManager;
 import fr.angelsky.skyblock.managers.utils.menu.MenuManager;
@@ -35,6 +36,7 @@ public class ManagerLoader {
     private ShopManager shopManager;
     private CrateManager crateManager;
     private AngelSkyEconomy angelSkyEconomy;
+    private DailyRewardManager dailyRewardManager;
 
     public ManagerLoader(SkyblockInstance skyblockInstance){
         this.skyblockInstance = skyblockInstance;
@@ -52,6 +54,7 @@ public class ManagerLoader {
         this.actionBarManager = new ActionBarManager(skyblockInstance);
         this.shopManager = new ShopManager(skyblockInstance);
         this.crateManager = new CrateManager(skyblockInstance);
+        this.dailyRewardManager = new DailyRewardManager(skyblockInstance);
 
         if (skyblockInstance.getSkyblock().getServer().getPluginManager().getPlugin("AngelSkyEconomy") != null){
             this.skyblockInstance.getSkyblock().getLogger().log(Level.INFO, "Instance AngelSkyEconomy recuperee");
@@ -76,10 +79,9 @@ public class ManagerLoader {
 
     public void unload(){
         Bukkit.getLogger().log(Level.INFO, "Sauvegarde des TempPlayers");
-        for(TempPlayer tempPlayer : skyblockInstance.getTempAccounts().values()){
-            tempPlayer.saveAccount();
-        }
+        skyblockInstance.getTempAccounts().values().forEach(TempPlayer::saveAccount);
         this.crateManager.unloadCrates();
+        this.dailyRewardManager.unloadAll();
     }
 
     public void initPlaceholders(){
