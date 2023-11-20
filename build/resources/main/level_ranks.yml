@@ -1,8 +1,0 @@
-ranks:
-  0:
-    display: "&7"
-    rewards: []
-  1:
-    display: "&f"
-    rewards:
-      - "say recompense commande"

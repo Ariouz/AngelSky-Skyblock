@@ -1,9 +1,0 @@
-required_votes: 100
-messages:
-  - "Vote party fini gg"
-  - "GG"
-commands_global:
-  - "voteparty reset"
-  - "say give money voteparty"
-commands_player:
-  - "eco %player% give 5"
