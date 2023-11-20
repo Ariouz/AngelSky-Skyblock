@@ -79,8 +79,7 @@ public class ShopManager {
                             .replaceAll("%sell_price%", canBeSold ? String.valueOf(sellPrice) + " &7AngelCoins " + SkyblockInstance.COIN: "&cNe peut pas être vendu");
                     lore.add(ChatColor.translateAlternateColorCodes('&', fline));
                 });
-                Material item = Material.getMaterial(Objects.requireNonNull(section.getString(categoryId + "." + itemId+ ".item_id")));
-
+                Material item = Material.getMaterial(Objects.requireNonNull(section.getString(categoryId + "." + itemId+ ".item_id")).toUpperCase());
                 ShopCategory cat = this.getCategory(categoryId);
                 this.shopItems.add(new ShopItem(id, cat, itemId, display, lore, item, buyPrice, sellPrice, canBeBought, canBeSold));
             }

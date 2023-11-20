@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.logging.Level;
+
 public class ShopMenu {
 
     private final SkyblockInstance skyblockInstance;
@@ -44,7 +46,7 @@ public class ShopMenu {
 
             inv.setItem(category.getSlot(), categoryItem.build(), event -> {
                 event.setCancelled(true);
-                this.openCategoryMenu(this.display + " " + category.getDisplay(), 6*9, category, player, 0);
+                this.openCategoryMenu(this.display, 6*9, category, player, 0);
             });
         }
 
@@ -66,13 +68,20 @@ public class ShopMenu {
         ItemStack border = new fr.angelsky.angelskyapi.api.utils.builder.ItemBuilder(category.getBorderItem()).setDisplayName(ChatColor.RED+"").build();
         inv.setItems(inv.getBorders(), border, event -> event.setCancelled(true));
 
-        int itemsPerPage = 5*9;
+        int itemsPerPage = 4*7;
         int i = itemsPerPage*page; // START INDEX
-
+        int j = -1;
         // CATEGORY'S ITEMS
 
         for(ShopItem item : this.shopManager.getCategoryItems(category)){
-            if(i == itemsPerPage*page+itemsPerPage) break;
+            j++;
+            if(j == itemsPerPage*page+itemsPerPage) break; // STOP IF LAST INDEX IS REACHED
+            if (j < itemsPerPage * page) continue; // SKIP UNTIL INDEX >= PAGE ITEMS
+            if (item.getItem() == null)
+            {
+                skyblockInstance.getSkyblock().getLogger().log(Level.WARNING, "Material is null for item " + item.getIdStr());
+                continue;
+            }
             ItemBuilder shopItem = new ItemBuilder(item.getItem())
                     .name(item.getDisplay())
                     .lore(item.getLore());
@@ -81,19 +90,25 @@ public class ShopMenu {
                 event.setCancelled(true);
                 this.openShopItemMenu(this.display + " " + item.getDisplay(), 5*9, item, player);
             });
-            i++;
         }
 
          // PAGINATION
 
         int maxPages = Math.floorDiv(this.shopManager.getCategoryItems(category).size(), itemsPerPage);
+        boolean hasItemOnNextPage = (page + 1) * itemsPerPage < this.shopManager.getCategoryItems(category).size();
 
-        ItemStack current = new ItemBuilder(Material.SUNFLOWER).name(ChatColor.GOLD + "Page " + ChatColor.YELLOW + String.valueOf(page)).build();
-        ItemStack previous = new ItemBuilder(Material.ARROW).name(ChatColor.GOLD + "Page " + ChatColor.YELLOW + String.valueOf(page - 1) + ChatColor.DARK_GRAY + " (-1)").build();
-        ItemStack next = new ItemBuilder(Material.ARROW).name(ChatColor.GOLD + "Page " + ChatColor.YELLOW + String.valueOf(page + 1) + ChatColor.DARK_GRAY + " (+1)").build();
-        if (page != 0) inv.setItem(47, previous, event -> this.openCategoryMenu(this.display + " " + category.getDisplay(), 6*9, category, player, page-1));
+        ItemStack current = new ItemBuilder(Material.SUNFLOWER)
+                .name(ChatColor.GOLD + "Page " + ChatColor.YELLOW + page)
+                .build();
+        ItemStack previous = new ItemBuilder(Material.ARROW)
+                .name(ChatColor.GOLD + "Page " + ChatColor.YELLOW + (page - 1) + ChatColor.DARK_GRAY + " (-1)")
+                .build();
+        ItemStack next = new ItemBuilder(Material.ARROW)
+                .name(ChatColor.GOLD + "Page " + ChatColor.YELLOW + (page + 1) + ChatColor.DARK_GRAY + " (+1)")
+                .build();
+        if (page != 0) inv.setItem(47, previous, event -> this.openCategoryMenu(this.display, 6*9, category, player, page - 1));
         inv.setItem(49, current);
-        if(page+1 <= maxPages) inv.setItem(51, next, event -> this.openCategoryMenu(this.display + " " + category.getDisplay(), 6*9, category, player, page+1));
+        if(page+1 <= maxPages && hasItemOnNextPage) inv.setItem(51, next, event -> this.openCategoryMenu(this.display, 6*9, category, player, page + 1));
 
         // BACK ITEM
 
@@ -105,7 +120,6 @@ public class ShopMenu {
             player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
             this.mainMenu(player);
         });
-
 
         player.openInventory(inv.getInventory());
     }
