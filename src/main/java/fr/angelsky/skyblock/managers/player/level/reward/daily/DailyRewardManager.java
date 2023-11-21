@@ -92,4 +92,8 @@ public class DailyRewardManager {
     public HashMap<UUID, PlayerTempDailyReward> getRewardPlayers() {
         return rewardPlayers;
     }
+
+    public SQLDailyRewards getSqlDailyRewards() {
+        return sqlDailyRewards;
+    }
 }

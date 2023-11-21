@@ -137,4 +137,8 @@ public class ManagerLoader {
     public AngelSkyEconomy getAngelSkyEconomy() {
         return angelSkyEconomy;
     }
+
+    public DailyRewardManager getDailyRewardManager() {
+        return dailyRewardManager;
+    }
 }

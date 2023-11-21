@@ -22,6 +22,7 @@ public class PlayerQuitListener implements Listener {
         tempPlayer.saveAccount();
         skyblockInstance.getManagerLoader().getScoreboardManager().removePlayer(player);
         skyblockInstance.getTempAccounts().remove(player.getName());
+        skyblockInstance.getManagerLoader().getDailyRewardManager().unloadPlayer(player.getUniqueId());
     }
 
 }
