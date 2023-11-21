@@ -1,6 +1,8 @@
 package fr.angelsky.skyblock.managers.player.level.reward.daily;
 
+import fr.angelsky.angelskyapi.api.utils.HexColors;
 import fr.angelsky.skyblock.SkyblockInstance;
+import fr.angelsky.skyblock.managers.utils.messages.MessageManager;
 import fr.angelsky.skyblock.sql.rewards.daily.SQLDailyRewards;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,9 +16,14 @@ public class DailyRewardManager {
 
     private final SQLDailyRewards sqlDailyRewards;
 
+    private final SkyblockInstance skyblockInstance;
+
+    private final MessageManager messageManager;
     private final HashMap<UUID, PlayerTempDailyReward> rewardPlayers = new HashMap<>();
 
-    public DailyRewardManager(SkyblockInstance skyblockInstance){
+    public DailyRewardManager(SkyblockInstance skyblockInstance, MessageManager messageManager){
+        this.skyblockInstance = skyblockInstance;
+        this.messageManager = messageManager;
         this.sqlDailyRewards = new SQLDailyRewards(skyblockInstance);
         init();
     }
@@ -28,12 +35,13 @@ public class DailyRewardManager {
     }
 
     public void unloadAll(){
-        rewardPlayers.forEach((uuid, tmp) -> {
+        new HashMap<>(rewardPlayers).forEach((uuid, tmp) -> {
             unloadPlayer(uuid);
         });
     }
 
     public void loadPlayer(UUID uuid){
+        if (!sqlDailyRewards.playerExists(uuid)) sqlDailyRewards.insertPlayerReward(uuid);
         this.rewardPlayers.put(uuid, new PlayerTempDailyReward(
                 uuid,
                 sqlDailyRewards.getRewardLevel(uuid),
@@ -47,7 +55,7 @@ public class DailyRewardManager {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null : "Le joueur n'est pas connecté ("+uuid+")";
         if (canGetReward(uuid)){
-            player.sendMessage(SkyblockInstance.PREFIX + "Une récompense journalière est disponible! Vous pouvez la récupérer avec la commande &6/daily&f.");
+            player.sendMessage(messageManager.getColorizedMessage(SkyblockInstance.PREFIX + "Une "+ HexColors.LIGHT_GREEN +"récompense journalière &fest disponible! Vous pouvez la récupérer avec la commande &6/daily&f."));
         }
     }
 

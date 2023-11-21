@@ -40,7 +40,7 @@ public class SQLDailyRewards {
 
     public int getRewardLevel(UUID uuid){
         String query = "SELECT * FROM %s WHERE player_uuid = '%s'" ;
-        return (int) angelSkyApiInstance.getApiManager().getSqlManager().getMySQL().query(String.format(query, uuid.toString()), resultSet -> {
+        return (int) angelSkyApiInstance.getApiManager().getSqlManager().getMySQL().query(String.format(query, TABLE, uuid.toString()), resultSet -> {
             try{
                 if (resultSet.next()){
                     return resultSet.getInt("reward_level");
@@ -54,7 +54,7 @@ public class SQLDailyRewards {
 
     public long getNextRewardTimestamp(UUID uuid){
         String query = "SELECT * FROM %s WHERE player_uuid = '%s'" ;
-        return (long) angelSkyApiInstance.getApiManager().getSqlManager().getMySQL().query(String.format(query, uuid.toString()), resultSet -> {
+        return (long) angelSkyApiInstance.getApiManager().getSqlManager().getMySQL().query(String.format(query, TABLE, uuid.toString()), resultSet -> {
             try{
                 if (resultSet.next()){
                     return resultSet.getLong("next_reward");
@@ -68,7 +68,7 @@ public class SQLDailyRewards {
 
     public long getNextRewardMaxTimestamp(UUID uuid){
         String query = "SELECT * FROM %s WHERE player_uuid = '%s'" ;
-        return (long) angelSkyApiInstance.getApiManager().getSqlManager().getMySQL().query(String.format(query, uuid.toString()), resultSet -> {
+        return (long) angelSkyApiInstance.getApiManager().getSqlManager().getMySQL().query(String.format(query, TABLE, uuid.toString()), resultSet -> {
             try{
                 if (resultSet.next()){
                     return resultSet.getLong("next_reward_max");

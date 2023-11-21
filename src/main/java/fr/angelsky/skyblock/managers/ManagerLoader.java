@@ -54,7 +54,7 @@ public class ManagerLoader {
         this.actionBarManager = new ActionBarManager(skyblockInstance);
         this.shopManager = new ShopManager(skyblockInstance);
         this.crateManager = new CrateManager(skyblockInstance);
-        this.dailyRewardManager = new DailyRewardManager(skyblockInstance);
+        this.dailyRewardManager = new DailyRewardManager(skyblockInstance, messageManager);
 
         if (skyblockInstance.getSkyblock().getServer().getPluginManager().getPlugin("AngelSkyEconomy") != null){
             this.skyblockInstance.getSkyblock().getLogger().log(Level.INFO, "Instance AngelSkyEconomy recuperee");
