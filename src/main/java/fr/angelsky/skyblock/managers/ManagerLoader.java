@@ -6,7 +6,7 @@ import fr.angelsky.skyblock.kits.IslandClassKitGiver;
 import fr.angelsky.skyblock.managers.display.actionbar.ActionBarManager;
 import fr.angelsky.skyblock.managers.display.scoreboard.ScoreboardManager;
 import fr.angelsky.skyblock.managers.player.level.LevelManager;
-import fr.angelsky.skyblock.managers.player.level.reward.daily.DailyRewardManager;
+import fr.angelsky.skyblock.managers.player.reward.daily.DailyRewardManager;
 import fr.angelsky.skyblock.managers.region.RegionManager;
 import fr.angelsky.skyblock.managers.server.crates.CrateManager;
 import fr.angelsky.skyblock.managers.utils.menu.MenuManager;

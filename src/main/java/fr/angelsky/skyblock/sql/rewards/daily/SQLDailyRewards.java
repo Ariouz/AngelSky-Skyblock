@@ -28,9 +28,9 @@ public class SQLDailyRewards {
         });
     }
 
-    public void insertPlayerReward(UUID uuid){
-        String query = "INSERT INTO %s (player_uuid) VALUES ('%s')";
-        angelSkyApiInstance.getApiManager().getSqlManager().getMySQL().update(String.format(query, TABLE, uuid.toString()));
+    public void insertPlayerReward(UUID uuid, long next, long max){
+        String query = "INSERT INTO %s (player_uuid, next_reward, next_reward_max) VALUES ('%s', '%s', '%s')";
+        angelSkyApiInstance.getApiManager().getSqlManager().getMySQL().update(String.format(query, TABLE, uuid.toString(), next, max));
     }
 
     public void savePlayerReward(UUID uuid, int rewardLevel, long nextReward, long nextRewardMax){

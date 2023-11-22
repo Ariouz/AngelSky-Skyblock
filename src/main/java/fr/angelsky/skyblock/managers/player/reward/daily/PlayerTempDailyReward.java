@@ -1,4 +1,4 @@
-package fr.angelsky.skyblock.managers.player.level.reward.daily;
+package fr.angelsky.skyblock.managers.player.reward.daily;
 
 import org.bukkit.Bukkit;
 

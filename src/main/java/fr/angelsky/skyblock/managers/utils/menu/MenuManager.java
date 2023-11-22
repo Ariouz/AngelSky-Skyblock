@@ -5,6 +5,7 @@ import fr.angelsky.skyblock.menus.island.IslandCreationClassMenu;
 import fr.angelsky.skyblock.menus.island.IslandTokensMenu;
 import fr.angelsky.skyblock.menus.island.LevelsMenu;
 import fr.angelsky.skyblock.menus.main.MainMenu;
+import fr.angelsky.skyblock.menus.rewards.daily.DailyRewardMenu;
 import fr.angelsky.skyblock.menus.store.StoreMenu;
 
 public class MenuManager {
@@ -16,6 +17,7 @@ public class MenuManager {
     private MainMenu mainMenu;
     private LevelsMenu levelsMenu;
     private StoreMenu storeMenu;
+    private DailyRewardMenu dailyRewardMenu;
 
     public MenuManager(SkyblockInstance skyblockInstance){
         this.skyblockInstance = skyblockInstance;
@@ -28,6 +30,7 @@ public class MenuManager {
         this.levelsMenu = new LevelsMenu(skyblockInstance);
         this.islandTokensMenu = new IslandTokensMenu(skyblockInstance);
         this.storeMenu = new StoreMenu(skyblockInstance);
+        this.dailyRewardMenu = new DailyRewardMenu(skyblockInstance);
     }
 
     public IslandCreationClassMenu getIslandCreationClassMenu() {
@@ -50,4 +53,7 @@ public class MenuManager {
         return storeMenu;
     }
 
+    public DailyRewardMenu getDailyRewardMenu() {
+        return dailyRewardMenu;
+    }
 }

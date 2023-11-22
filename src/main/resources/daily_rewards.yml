@@ -1,0 +1,77 @@
+0:
+  display: "x500 AngelCoins"
+  need_inventory_slot: false
+  commands:
+    - "money give %player% 500"
+1:
+  display: "x8 Lingots de Fer"
+  need_inventory_slot: true
+  message: true
+  commands:
+    - "give %player% minecraft:iron_ingot 8"
+2:
+  display: "x2 Tokens"
+  need_inventory_slot: false
+  message: true
+  commands:
+    - "tokens %player% add 2"
+3:
+  display: "x1500 AngelCoins"
+  need_inventory_slot: false
+  message: false
+  commands:
+    - "money give %player% 1500"
+4:
+  display: "x1 Clé de Caisse Volcanique"
+  need_inventory_slot: true
+  message: false
+  commands:
+    - "cratekey %player% give volcanic_crate_key 1"
+5:
+  display: "x64 Bouteilles d'Expérience"
+  need_inventory_slot: true
+  message: true
+  commands:
+    - "give %player% experience_bottle 64"
+6:
+  display: "x4 Diamants"
+  need_inventory_slot: true
+  message: true
+  commands:
+    - "give %player% diamond 4"
+7:
+  display: "x7500 AngelCoins"
+  need_inventory_slot: false
+  message: false
+  commands:
+    - "money give %player% 7500"
+8:
+  display: "x10 Tokens"
+  need_inventory_slot: false
+  message: true
+  commands:
+    - "tokens %player% add 10"
+9:
+  display: "x1 Clé de Caisse de Jade"
+  need_inventory_slot: true
+  message: false
+  commands:
+    - "cratekey %player% give jade_crate_key 1"
+10:
+  display: "x1 Lingot de Netherite"
+  need_inventory_slot: true
+  message: true
+  commands:
+    - "give %player% netherite_ingot 1"
+11:
+  display: "x25 Tokens"
+  need_inventory_slot: false
+  message: true
+  commands:
+    - "tokens %player% add 25"
+12:
+  display: "x1 Nether Star"
+  need_inventory_slot: true
+  message: true
+  commands:
+    - "give %player% nether_star 1"

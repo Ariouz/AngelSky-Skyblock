@@ -45,4 +45,9 @@ commands:
     description: Ouvre un menu pour jeter ses items non utilisés
     aliases:
       - trash
+  daily:
+    description: Ouvre le menu des récompenses journalières
+    aliases:
+      - dr
+      - dailyreward
 

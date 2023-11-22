@@ -1,6 +1,7 @@
-package fr.angelsky.skyblock.managers.player.level.reward.daily;
+package fr.angelsky.skyblock.managers.player.reward.daily;
 
 import fr.angelsky.angelskyapi.api.utils.HexColors;
+import fr.angelsky.angelskyapi.api.utils.file.ConfigUtils;
 import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblock.managers.utils.messages.MessageManager;
 import fr.angelsky.skyblock.sql.rewards.daily.SQLDailyRewards;
@@ -16,16 +17,30 @@ public class DailyRewardManager {
 
     private final SQLDailyRewards sqlDailyRewards;
 
-    private final SkyblockInstance skyblockInstance;
-
     private final MessageManager messageManager;
+    private final SkyblockInstance skyblockInstance;
     private final HashMap<UUID, PlayerTempDailyReward> rewardPlayers = new HashMap<>();
+    private final HashMap<Integer, DailyReward> rewards = new HashMap<>();
 
     public DailyRewardManager(SkyblockInstance skyblockInstance, MessageManager messageManager){
         this.skyblockInstance = skyblockInstance;
         this.messageManager = messageManager;
         this.sqlDailyRewards = new SQLDailyRewards(skyblockInstance);
+        loadRewards();
         init();
+    }
+
+    private void loadRewards(){
+        ConfigUtils config = new ConfigUtils(skyblockInstance.getSkyblock(), "daily_rewards.yml");
+        for(String dayId : config.getYamlConfiguration().getKeys(false)){
+            this.rewards.put(Integer.parseInt(dayId), new DailyReward(
+                    Integer.parseInt(dayId),
+                    config.getString(dayId+".display"),
+                    config.getBoolean(dayId+".need_inventory_slot"),
+                    config.getList(dayId+".commands"),
+                    config.getBoolean(dayId+".message")
+            ));
+        }
     }
 
     private void init(){
@@ -41,13 +56,22 @@ public class DailyRewardManager {
     }
 
     public void loadPlayer(UUID uuid){
-        if (!sqlDailyRewards.playerExists(uuid)) sqlDailyRewards.insertPlayerReward(uuid);
+        if (!sqlDailyRewards.playerExists(uuid)){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(new Date().getTime());
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            sqlDailyRewards.insertPlayerReward(uuid, calendar.getTimeInMillis(), calculateMaxTime(calendar.getTimeInMillis()));
+        }
         this.rewardPlayers.put(uuid, new PlayerTempDailyReward(
                 uuid,
                 sqlDailyRewards.getRewardLevel(uuid),
                 sqlDailyRewards.getNextRewardTimestamp(uuid),
                 sqlDailyRewards.getNextRewardMaxTimestamp(uuid)
         ));
+        checkMaxTime(uuid);
         checkForReward(uuid);
     }
 
@@ -72,21 +96,30 @@ public class DailyRewardManager {
         return time >= playerTempDailyReward.getNextReward() && time <= playerTempDailyReward.getNextRewardMax();
     }
 
-    public void checkMaxTime(UUID uuid){
+    public boolean checkMaxTime(UUID uuid){
         PlayerTempDailyReward playerTempDailyReward = this.rewardPlayers.get(uuid);
-        if (playerTempDailyReward.getNextRewardMax() < new Date().getTime()) updatePlayerTemp(playerTempDailyReward, 0);
+        if (playerTempDailyReward.getNextRewardMax() < new Date().getTime()){
+            updatePlayerTemp(playerTempDailyReward, 0);
+            return false;
+        }
+        return true;
     }
 
     public void updatePlayerTemp(PlayerTempDailyReward playerTempDailyReward, int rewardLevel){
+        if (rewardLevel >= this.rewards.size()) rewardLevel = 0;
         playerTempDailyReward.setRewardLevel(rewardLevel);
         playerTempDailyReward.setNextReward(calculateNextTime());
-        playerTempDailyReward.setNextRewardMax(playerTempDailyReward.getNextReward());
+        playerTempDailyReward.setNextRewardMax(calculateMaxTime(playerTempDailyReward.getNextReward()));
     }
 
     private long calculateNextTime(){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(new Date().getTime());
-        calendar.add(Calendar.HOUR_OF_DAY, 24);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.add(Calendar.DAY_OF_WEEK, 1);
         return calendar.getTimeInMillis();
     }
 
@@ -97,11 +130,11 @@ public class DailyRewardManager {
         return calendar.getTimeInMillis();
     }
 
-    public HashMap<UUID, PlayerTempDailyReward> getRewardPlayers() {
-        return rewardPlayers;
+    public PlayerTempDailyReward getPlayerTempDailyReward(Player player){
+        return this.rewardPlayers.get(player.getUniqueId());
     }
 
-    public SQLDailyRewards getSqlDailyRewards() {
-        return sqlDailyRewards;
+    public HashMap<Integer, DailyReward> getRewards() {
+        return rewards;
     }
 }
