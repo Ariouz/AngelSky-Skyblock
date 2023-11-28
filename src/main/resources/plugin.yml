@@ -50,4 +50,8 @@ commands:
     aliases:
       - dr
       - dailyreward
+  store:
+    description: Ouvre le menu de la boutique ig
+    aliases:
+      - boutiqueig
 

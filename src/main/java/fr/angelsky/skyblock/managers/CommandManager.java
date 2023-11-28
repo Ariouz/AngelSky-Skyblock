@@ -18,6 +18,7 @@ import fr.angelsky.skyblock.commands.player.misc.TrashCommand;
 import fr.angelsky.skyblock.commands.utils.misc.DailyRewardCommand;
 import fr.angelsky.skyblock.commands.utils.social.BoutiqueCommand;
 import fr.angelsky.skyblock.commands.utils.social.DiscordCommand;
+import fr.angelsky.skyblock.commands.utils.social.StoreCommand;
 import fr.angelsky.skyblock.commands.utils.social.VoteCommand;
 
 import java.util.Objects;
@@ -43,6 +44,7 @@ public class CommandManager {
         Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("discord")).setExecutor(new DiscordCommand());
         Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("vote")).setExecutor(new VoteCommand());
         Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("boutique")).setExecutor(new BoutiqueCommand());
+        Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("store")).setExecutor(new StoreCommand(skyblockInstance));
 
         // MISC
         Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("eglow")).setExecutor(new EglowCommand(skyblockInstance));
