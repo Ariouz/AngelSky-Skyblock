@@ -96,19 +96,16 @@ public class DailyRewardManager {
         return time >= playerTempDailyReward.getNextReward() && time <= playerTempDailyReward.getNextRewardMax();
     }
 
-    public boolean checkMaxTime(UUID uuid){
+    public void checkMaxTime(UUID uuid){
         PlayerTempDailyReward playerTempDailyReward = this.rewardPlayers.get(uuid);
-        if (playerTempDailyReward.getNextRewardMax() < new Date().getTime()){
+        if (playerTempDailyReward.getNextRewardMax() < new Date().getTime())
             updatePlayerTemp(playerTempDailyReward, 0);
-            return false;
-        }
-        return true;
     }
 
     public void updatePlayerTemp(PlayerTempDailyReward playerTempDailyReward, int rewardLevel){
         if (rewardLevel >= this.rewards.size()) rewardLevel = 0;
         playerTempDailyReward.setRewardLevel(rewardLevel);
-        playerTempDailyReward.setNextReward(calculateNextTime());
+        playerTempDailyReward.setNextReward(rewardLevel == 0 ? new Date().getTime() : calculateNextTime());
         playerTempDailyReward.setNextRewardMax(calculateMaxTime(playerTempDailyReward.getNextReward()));
     }
 
@@ -126,7 +123,10 @@ public class DailyRewardManager {
     private long calculateMaxTime(long start){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(start);
-        calendar.add(Calendar.HOUR_OF_DAY, 24);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTimeInMillis();
     }
 
