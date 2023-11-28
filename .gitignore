@@ -114,3 +114,5 @@ run/
 
 # Build
 build/
+
+.gradle/*

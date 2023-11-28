@@ -69,9 +69,7 @@ public class StoreMenu {
 
         ItemBuilder back = new ItemBuilder(Material.ARROW)
                 .setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cRetour"));
-        fastInv.setItem(fastInv.getInventory().getSize()-1, back.build(), event -> {
-            skyblockInstance.getManagerLoader().getMenuManager().getMainMenu().menu(player, skyblockInstance.getTempAccounts().get(player.getName()));
-        });
+        fastInv.setItem(fastInv.getInventory().getSize()-1, back.build(), event -> skyblockInstance.getManagerLoader().getMenuManager().getMainMenu().menu(player, skyblockInstance.getTempAccounts().get(player.getName())));
         fastInv.open(player);
     }
 
@@ -168,9 +166,7 @@ public class StoreMenu {
 
         ItemBuilder back = new ItemBuilder(Material.ARROW)
                 .setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cRetour"));
-        fastInv.setItem(fastInv.getInventory().getSize()-1, back.build(), event -> {
-            this.openStoreMenu(player);
-        });
+        fastInv.setItem(fastInv.getInventory().getSize()-1, back.build(), event -> this.openStoreMenu(player));
         fastInv.open(player);
     }
 
@@ -182,7 +178,6 @@ public class StoreMenu {
 
         for(CrateKey crateKey : CrateKey.values()){
             if (!crateKey.isInStore()) continue;
-            System.out.println(crateKey);
             ItemStack item = new ItemBuilder(OraxenItems.getItemById(crateKey.getKeyId()).build())
                     .setLore(
                             ChatColor.translateAlternateColorCodes('&', "&a"),
@@ -202,9 +197,7 @@ public class StoreMenu {
 
         ItemBuilder back = new ItemBuilder(Material.ARROW)
                 .setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cRetour"));
-        fastInv.setItem(fastInv.getInventory().getSize()-1, back.build(), event -> {
-            this.openStoreMenu(player);
-        });
+        fastInv.setItem(fastInv.getInventory().getSize()-1, back.build(), event -> this.openStoreMenu(player));
         fastInv.open(player);
     }
 
