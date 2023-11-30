@@ -116,3 +116,6 @@ run/
 build/
 
 .gradle/*
+*.lock
+*.bin
+*.probe

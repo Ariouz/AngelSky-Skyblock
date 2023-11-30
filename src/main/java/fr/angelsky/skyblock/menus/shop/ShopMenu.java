@@ -36,6 +36,9 @@ public class ShopMenu {
     private void openCategoriesMenu(String display, int size, Player player){
         FastInv inv = new FastInv(size, display);
 
+        ItemStack border = new fr.angelsky.angelskyapi.api.utils.builder.ItemBuilder(Material.CYAN_STAINED_GLASS_PANE).setDisplayName(ChatColor.RED+"").build();
+        inv.setItems(inv.getBorders(), border, event -> event.setCancelled(true));
+
         for(ShopCategory category : shopManager.getShopCategories().values()){
             ItemBuilder categoryItem = new ItemBuilder(category.getItem())
                     .name(category.getDisplay())
