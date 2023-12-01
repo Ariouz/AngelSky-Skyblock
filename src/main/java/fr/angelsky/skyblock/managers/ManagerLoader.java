@@ -10,11 +10,13 @@ import fr.angelsky.skyblock.managers.player.level.LevelManager;
 import fr.angelsky.skyblock.managers.player.reward.daily.DailyRewardManager;
 import fr.angelsky.skyblock.managers.region.RegionManager;
 import fr.angelsky.skyblock.managers.server.crates.CrateManager;
+import fr.angelsky.skyblock.managers.server.top.LevelTopManager;
 import fr.angelsky.skyblock.managers.utils.menu.MenuManager;
 import fr.angelsky.skyblock.managers.utils.messages.MessageManager;
 import fr.angelsky.skyblock.managers.utils.voteparty.VotePartyManager;
 import fr.angelsky.skyblock.menus.shop.ShopManager;
 import fr.angelsky.skyblock.placeholders.global.SkyblockBaltopPlaceholder;
+import fr.angelsky.skyblock.placeholders.global.SkyblockLevelTopPlaceholder;
 import fr.angelsky.skyblock.placeholders.island.upgrade.UpgradeTokenPlaceholder;
 import fr.angelsky.skyblock.placeholders.server.SkyBlockPrefixPlaceholder;
 import fr.angelsky.skyblockapi.accounts.TempPlayer;
@@ -39,6 +41,7 @@ public class ManagerLoader {
     private AngelSkyEconomy angelSkyEconomy;
     private DailyRewardManager dailyRewardManager;
     private TabListDisplayer tabListDisplayer;
+    private LevelTopManager levelTopManager;
 
     public ManagerLoader(SkyblockInstance skyblockInstance){
         this.skyblockInstance = skyblockInstance;
@@ -58,6 +61,7 @@ public class ManagerLoader {
         this.crateManager = new CrateManager(skyblockInstance);
         this.dailyRewardManager = new DailyRewardManager(skyblockInstance, messageManager);
         this.tabListDisplayer = new TabListDisplayer(skyblockInstance);
+        this.levelTopManager = new LevelTopManager(skyblockInstance);
 
         if (skyblockInstance.getSkyblock().getServer().getPluginManager().getPlugin("AngelSkyEconomy") != null){
             this.skyblockInstance.getSkyblock().getLogger().log(Level.INFO, "Instance AngelSkyEconomy recuperee");
@@ -71,6 +75,7 @@ public class ManagerLoader {
         this.levelManager.load();
         this.crateManager.loadCrates();
         this.tabListDisplayer.run();
+        this.levelTopManager.init();
 
         new CommandManager(skyblockInstance);
         new EventManager(skyblockInstance);
@@ -92,6 +97,7 @@ public class ManagerLoader {
         new UpgradeTokenPlaceholder(skyblockInstance).register();
         new SkyBlockPrefixPlaceholder(skyblockInstance).register();
         new SkyblockBaltopPlaceholder(skyblockInstance).register();
+        new SkyblockLevelTopPlaceholder(skyblockInstance).register();
     }
 
     public SkyblockInstance getSkyblockInstance() {
@@ -144,5 +150,9 @@ public class ManagerLoader {
 
     public DailyRewardManager getDailyRewardManager() {
         return dailyRewardManager;
+    }
+
+    public LevelTopManager getLevelTopManager() {
+        return levelTopManager;
     }
 }

@@ -26,7 +26,6 @@ public class ChatListener implements Listener {
         TempPlayer tempPlayer = skyblockInstance.getTempAccounts().get(player.getName());
         TempPlayerAccount playerAccount = skyblockInstance.getAngelSkyApiInstance().getApiManager().getAccountManager().getAccount(player.getUniqueId());
 
-
         String rankDisplay;
         if(tempPlayer.getPlayerLevel().isMaxRank()){
             rankDisplay = LevelRankManager.getMaxRankTag() + " ";

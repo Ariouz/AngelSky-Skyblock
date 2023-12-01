@@ -1,6 +1,7 @@
 package fr.angelsky.skyblock.menus.shop;
 
 import fr.angelsky.angelskyapi.api.utils.file.ConfigUtils;
+import fr.angelsky.angelskyapi.api.utils.math.NumbersSeparator;
 import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblock.managers.ItemManager;
 import org.bukkit.ChatColor;
@@ -75,8 +76,8 @@ public class ShopManager {
                 ArrayList<String> lore = new ArrayList<>();
                 Objects.requireNonNull(section.getList(categoryId + "." +itemId+ ".lore")).forEach(line -> {
                     String fline = line.toString()
-                            .replaceAll("%buy_price%", canBeBought ? String.valueOf(buyPrice) + " &7AngelCoins " + SkyblockInstance.COIN : "&cNe peut pas être acheté")
-                            .replaceAll("%sell_price%", canBeSold ? String.valueOf(sellPrice) + " &7AngelCoins " + SkyblockInstance.COIN: "&cNe peut pas être vendu");
+                            .replaceAll("%buy_price%", canBeBought ? (buyPrice > 1000 ? NumbersSeparator.LanguageFormatter.USA.convert((int) buyPrice, 3) : buyPrice) + " &7AngelCoins " + SkyblockInstance.COIN : "&cNe peut pas être acheté")
+                            .replaceAll("%sell_price%", canBeSold ? (sellPrice > 1000 ? NumbersSeparator.LanguageFormatter.USA.convert((int) sellPrice, 3) : sellPrice) + " &7AngelCoins " + SkyblockInstance.COIN: "&cNe peut pas être vendu");
                     lore.add(ChatColor.translateAlternateColorCodes('&', fline));
                 });
                 Material item = Material.getMaterial(Objects.requireNonNull(section.getString(categoryId + "." + itemId+ ".item_id")).toUpperCase());

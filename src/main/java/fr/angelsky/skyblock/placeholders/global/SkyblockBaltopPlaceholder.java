@@ -1,5 +1,6 @@
 package fr.angelsky.skyblock.placeholders.global;
 
+import fr.angelsky.angelskyapi.api.utils.math.NumbersSeparator;
 import fr.angelsky.angelskyeconomy.AngelSkyEconomy;
 import fr.angelsky.angelskyeconomy.eco.PlayerBalance;
 import fr.angelsky.skyblock.SkyblockInstance;
@@ -38,9 +39,9 @@ public class SkyblockBaltopPlaceholder extends PlaceholderExpansion {
     public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
         String[] args = params.split(":");
         return switch (args[0]) {
-            case "player_rank" -> String.valueOf(getPlayerRank(player));
-            case "player_balance" -> String.valueOf(getPlayerBalance(player));
-            case "rank_balance" -> String.valueOf(getBalanceForRank(Integer.parseInt(args[1])));
+            case "player_rank" -> String.valueOf(getPlayerRank(player) + 1);
+            case "player_balance" -> NumbersSeparator.LanguageFormatter.USA.convert((int) getPlayerBalance(player), 3);
+            case "rank_balance" -> NumbersSeparator.LanguageFormatter.USA.convert((int) getBalanceForRank(Integer.parseInt(args[1])), 3);
             case "rank_player" -> getPlayerNameForRank(Integer.parseInt(args[1]));
             default -> null;
         };

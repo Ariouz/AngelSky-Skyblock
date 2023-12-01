@@ -2,13 +2,7 @@ package fr.angelsky.skyblock.managers.server.crates;
 
 import fr.angelsky.angelskyapi.api.utils.file.ConfigUtils;
 import fr.angelsky.skyblock.SkyblockInstance;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
-
+import fr.angelsky.skyblock.managers.ItemManager;
 import fr.mrmicky.fastinv.FastInv;
 import fr.mrmicky.fastinv.ItemBuilder;
 import net.kyori.adventure.text.Component;
@@ -17,7 +11,9 @@ import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -25,6 +21,8 @@ import org.bukkit.util.Vector;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
 import xyz.xenondevs.particle.data.texture.BlockTexture;
+
+import java.util.*;
 
 public class CrateManager {
     private final SkyblockInstance skyblockInstance;
@@ -40,7 +38,7 @@ public class CrateManager {
     private final ConfigUtils crateLootsConfig;
 
     public static final int CRATE_OPEN_TIME = 5*20;
-    public static final int ITEM_LIFE_TIME = 3;
+    public static final int ITEM_LIFE_TIME = 2;
 
     private int task, fountainTask;
 
@@ -121,15 +119,15 @@ public class CrateManager {
             public void run() {
                 finalItem[0] = crate.getRandomLoot().getItem();
                 System.out.println(finalItem[0].getType());
-                item[0] = (Item) location.getWorld().spawnEntity(location.toCenterLocation().add(0, 2, 0), EntityType.DROPPED_ITEM);
+                item[0] = (Item) location.getWorld().spawnEntity(location.toCenterLocation().add(0, 1, 0), EntityType.DROPPED_ITEM);
                 item[0].setCanPlayerPickup(false);
                 item[0].setItemStack(finalItem[0].clone());
                 item[0].setCanMobPickup(false);
                 item[0].setWillAge(false);
                 item[0].getItemStack().setAmount(1);
                 item[0].setGravity(false);
-                item[0].setVelocity(new Vector(0, -0.03, 0));
-                item[0].customName(Component.text(ChatColor.translateAlternateColorCodes('&', "&8x&7"+ finalItem[0].getAmount()+ " ")).append(finalItem[0].getItemMeta().displayName()));
+                item[0].setVelocity(new Vector(0, -0.01, 0));
+                item[0].customName(Component.text(ChatColor.translateAlternateColorCodes('&', "&8x&7"+ finalItem[0].getAmount()+ " ")).append(Objects.requireNonNull(finalItem[0].getItemMeta().displayName())));
                 item[0].setCustomNameVisible(true);
 
                 location.getWorld().playSound(location, Sound.BLOCK_BEACON_POWER_SELECT, 35, 0);
@@ -148,7 +146,7 @@ public class CrateManager {
                     Player target = crate.getOpener();
                     HashMap<Integer, ItemStack> toDrop = target.getInventory().addItem(crate.getFinalItem());
 
-                    String message = SkyblockInstance.PREFIX + "Vous avez reçu &8x&4"+ crate.getFinalItem().getAmount() + " " + LegacyComponentSerializer.legacySection().serialize(crate.getFinalItem().getItemMeta().displayName()) +" &fdans la box " + crate.getId();
+                    String message = SkyblockInstance.PREFIX + "Vous avez reçu &8x&4"+ crate.getFinalItem().getAmount() + " " + LegacyComponentSerializer.legacySection().serialize(Objects.requireNonNull(crate.getFinalItem().getItemMeta().displayName())) +" &fdans la box " + crate.getId();
                     target.sendMessage(skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(message));
 
                     if(!toDrop.isEmpty()){
@@ -170,13 +168,13 @@ public class CrateManager {
         ItemStack launchItem = crate.getRandomLoot().getItem();
         if(launchItem == null) return null;
 
-        Item item = (Item) loc.getWorld().spawnEntity(loc.toCenterLocation().add(0, 2, 0), EntityType.DROPPED_ITEM);
+        Item item = (Item) loc.getWorld().spawnEntity(loc.toCenterLocation().add(0, 0.5, 0), EntityType.DROPPED_ITEM);
         item.setCanPlayerPickup(false);
         item.setItemStack(launchItem);
         item.setCanMobPickup(false);
         item.setWillAge(false);
         item.getItemStack().setAmount(1);
-        item.setVelocity(new Vector(0, 0, 0));
+        item.setVelocity(new Vector(0, 0.3, 0));
 
         loc.getWorld().playSound(loc, Sound.BLOCK_DISPENSER_DISPENSE, 30, 1);
 
@@ -219,6 +217,11 @@ public class CrateManager {
 
     public void openCrate(Crate crate, Player player, Location location) {
         location.add(0.0D, 0.5D, 0.0D).toCenterLocation();
+        if (this.openingCrates.containsKey(location)){
+            player.sendMessage(skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(SkyblockInstance.PREFIX+ "&cCette caisse est déja en train d'être ouverte."));
+            return;
+        }
+        new ItemManager().removeItems(player, player.getInventory(), player.getInventory().getItemInMainHand(), 1);
         crate.addOpenTime(location, CRATE_OPEN_TIME);
         this.fountainAs.put(location, new HashMap<>());
         crate.setOpener(player);

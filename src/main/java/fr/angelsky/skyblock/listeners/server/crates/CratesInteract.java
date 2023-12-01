@@ -1,7 +1,6 @@
 package fr.angelsky.skyblock.listeners.server.crates;
 
 import fr.angelsky.skyblock.SkyblockInstance;
-import fr.angelsky.skyblock.managers.ItemManager;
 import fr.angelsky.skyblock.managers.server.crates.Crate;
 import io.th0rgal.oraxen.api.OraxenItems;
 import io.th0rgal.oraxen.api.events.furniture.OraxenFurnitureBreakEvent;
@@ -60,7 +59,6 @@ public class CratesInteract implements Listener {
 
         if(OraxenItems.getIdByItem(player.getInventory().getItemInMainHand()).equals(crate.getKeyId())){ // HAS KEY
             skyblockInstance.getManagerLoader().getCrateManager().openCrate(crate, player, event.getBlock().getLocation());
-            new ItemManager().removeItems(player, player.getInventory(), player.getInventory().getItemInMainHand(), 1);
         }else{
             player.sendMessage(SkyblockInstance.PREFIX + "Vous devez avoir une " + keyItem.getItemMeta().getDisplayName() + ChatColor.WHITE +" pour ouvrir cette caisse.");
             player.setVelocity(player.getLocation().getDirection().multiply(-1).add(new Vector(0, 0.3, 0)));
