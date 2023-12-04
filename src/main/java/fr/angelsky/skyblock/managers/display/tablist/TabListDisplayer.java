@@ -41,7 +41,7 @@ public class TabListDisplayer {
                 + " &8| &6AngelCoins&8: &e" + NumbersSeparator.LanguageFormatter.USA.convert((int) skyblockInstance.getSkyBlockApiInstance().getEconomy().getBalance(player), 3) + " " + SkyblockInstance.COIN
                 + "\n&f&lÎle &8» &eNiveau&8: &7" + (island != null ? island.getIslandLevel().intValue() : "0")
                 + " &8| &2Banque&8: &a" + NumbersSeparator.LanguageFormatter.USA.convert((island != null ? island.getIslandBank().getBalance().longValue() : 0), 2) + " " + SkyblockInstance.COIN
-                +" &8| &9Membres&8: &3"+ (island != null ? island.getIslandMembers().size() : 0) + "&7/&b" + (island != null ? island.getTeamLimit() : 0)
+                +" &8| &9Membres&8: &3"+ (island != null ? island.getIslandMembers(true).size() : 0) + "&7/&b" + (island != null ? island.getTeamLimit() : 0)
                 + "\n\n&fConnecté"+(Bukkit.getOnlinePlayers().size() > 1 ? "s":"")+"&8: &7" + Bukkit.getOnlinePlayers().size() + " &8| &fPing&8: &7" + player.getPing() +"ms"
         );
         player.setPlayerListHeaderFooter(header, footer);
