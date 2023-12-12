@@ -40,6 +40,7 @@ public class SkyblockLevelTopPlaceholder extends PlaceholderExpansion {
     @Override
     public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
         String[] args = params.split(":");
+        if (player == null) return null;
         int position = args.length == 2 ? Integer.parseInt(args[1]) : -1;
         return switch (args[0]) {
             case "player_position" -> String.valueOf(levelTopManager.get(player).getPosition());
