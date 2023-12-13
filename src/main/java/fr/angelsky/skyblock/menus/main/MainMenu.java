@@ -40,8 +40,8 @@ public class MainMenu {
                 .lore(
                         ChatColor.translateAlternateColorCodes('&', "&a"),
                         ChatColor.translateAlternateColorCodes('&', "&7» Ouvrez le menu de votre île"),
-                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• Pour accéder à toutes ses fonctionalités"),
-                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• Modifier ses paramètres"),
+                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Pour accéder à toutes ses fonctionalités"),
+                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Modifier ses paramètres"),
                         ChatColor.translateAlternateColorCodes('&', "&7")
                         )
                 .build();
