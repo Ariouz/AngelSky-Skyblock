@@ -3,6 +3,7 @@ package fr.angelsky.skyblock.managers;
 import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblock.listeners.island.IslandDisbandListener;
 import fr.angelsky.skyblock.listeners.player.chat.ChatListener;
+import fr.angelsky.skyblock.listeners.player.damage.PlayerIslandDeathListener;
 import fr.angelsky.skyblock.listeners.player.level.PlayerPassLevelListener;
 import fr.angelsky.skyblock.listeners.player.level.PlayerPassRankListener;
 import fr.angelsky.skyblock.listeners.server.PlayerJoinListener;
@@ -24,6 +25,7 @@ public class EventManager {
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(skyblockInstance), skyblockInstance.getSkyblock());
         Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(skyblockInstance), skyblockInstance.getSkyblock());
         Bukkit.getPluginManager().registerEvents(new IslandDisbandListener(skyblockInstance), skyblockInstance.getSkyblock());
+        Bukkit.getPluginManager().registerEvents(new PlayerIslandDeathListener(skyblockInstance), skyblockInstance.getSkyblock());
 
         Bukkit.getPluginManager().registerEvents(new PlayerPassRankListener(skyblockInstance), skyblockInstance.getSkyblock());
         Bukkit.getPluginManager().registerEvents(new PlayerPassLevelListener(skyblockInstance), skyblockInstance.getSkyblock());

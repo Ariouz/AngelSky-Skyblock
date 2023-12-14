@@ -50,8 +50,8 @@ public class MainMenu {
                 .name(skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(HexColors.SMOOTH_BLUE + "&lNiveaux"))
                 .lore(ChatColor.translateAlternateColorCodes('&', "&a"),
                         ChatColor.translateAlternateColorCodes('&', "&7» Découvrez les niveaux disponibles:"),
-                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7150 Niveaux par pallier"),
-                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &730 Palliers"),
+                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7150 Niveaux par palier"),
+                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &730 Paliers"),
                         ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7"+(150*30)+" Niveaux au total"),
                         ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Débloquez de nouveaux crafts et items"),
                         ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Découvrez des zones communes"),
