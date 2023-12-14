@@ -1,5 +1,6 @@
 package fr.angelsky.skyblock.listeners.player.level;
 
+import fr.angelsky.angelskyapi.api.utils.HexColors;
 import fr.angelsky.angelskyapi.api.utils.math.NumbersSeparator;
 import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblockapi.accounts.TempPlayer;
@@ -22,7 +23,7 @@ public class PlayerPassLevelListener implements Listener {
         TempPlayer tempPlayer = event.getTempPlayer();
         tempPlayer.getPlayerLevel().refreshLevels(skyblockInstance.getManagerLoader().getLevelManager().getLevelRankManager(), skyblockInstance.getManagerLoader().getLevelManager().getLevelColor());
 
-        skyblockInstance.getManagerLoader().getActionBarManager().sendActionBar(tempPlayer.getPlayer(), ChatColor.GOLD + "Nouveau Niveau !", 5);
+        skyblockInstance.getManagerLoader().getActionBarManager().sendActionBar(tempPlayer.getPlayer(), HexColors.LIGHT_GREEN + "Niveau Supérieur !", 5);
         tempPlayer.getPlayer().playSound(tempPlayer.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 30, 0);
 
         // MONEY GIVE CALCUL

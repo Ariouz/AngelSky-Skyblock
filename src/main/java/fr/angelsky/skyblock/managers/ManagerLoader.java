@@ -7,6 +7,7 @@ import fr.angelsky.skyblock.managers.display.actionbar.ActionBarManager;
 import fr.angelsky.skyblock.managers.display.scoreboard.ScoreboardManager;
 import fr.angelsky.skyblock.managers.display.tablist.TabListDisplayer;
 import fr.angelsky.skyblock.managers.player.level.LevelManager;
+import fr.angelsky.skyblock.managers.player.level.experience.PlayerExperienceManager;
 import fr.angelsky.skyblock.managers.player.reward.daily.DailyRewardManager;
 import fr.angelsky.skyblock.managers.region.RegionManager;
 import fr.angelsky.skyblock.managers.server.crates.CrateManager;
@@ -42,6 +43,7 @@ public class ManagerLoader {
     private DailyRewardManager dailyRewardManager;
     private TabListDisplayer tabListDisplayer;
     private LevelTopManager levelTopManager;
+    private PlayerExperienceManager playerExperienceManager;
 
     public ManagerLoader(SkyblockInstance skyblockInstance){
         this.skyblockInstance = skyblockInstance;
@@ -62,6 +64,7 @@ public class ManagerLoader {
         this.dailyRewardManager = new DailyRewardManager(skyblockInstance, messageManager);
         this.tabListDisplayer = new TabListDisplayer(skyblockInstance);
         this.levelTopManager = new LevelTopManager(skyblockInstance);
+        this.playerExperienceManager = new PlayerExperienceManager(skyblockInstance);
 
         if (skyblockInstance.getSkyblock().getServer().getPluginManager().getPlugin("AngelSkyEconomy") != null){
             this.skyblockInstance.getSkyblock().getLogger().log(Level.INFO, "Instance AngelSkyEconomy recuperee");
@@ -154,5 +157,9 @@ public class ManagerLoader {
 
     public LevelTopManager getLevelTopManager() {
         return levelTopManager;
+    }
+
+    public PlayerExperienceManager getPlayerExperienceManager() {
+        return playerExperienceManager;
     }
 }

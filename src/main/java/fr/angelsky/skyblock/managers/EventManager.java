@@ -6,6 +6,7 @@ import fr.angelsky.skyblock.listeners.player.chat.ChatListener;
 import fr.angelsky.skyblock.listeners.player.damage.PlayerIslandDeathListener;
 import fr.angelsky.skyblock.listeners.player.level.PlayerPassLevelListener;
 import fr.angelsky.skyblock.listeners.player.level.PlayerPassRankListener;
+import fr.angelsky.skyblock.listeners.player.level.PlayerXpEarningListener;
 import fr.angelsky.skyblock.listeners.server.PlayerJoinListener;
 import fr.angelsky.skyblock.listeners.server.PlayerQuitListener;
 import fr.angelsky.skyblock.listeners.server.crates.CratesInteract;
@@ -33,8 +34,9 @@ public class EventManager {
         Bukkit.getPluginManager().registerEvents(new ChatListener(skyblockInstance), skyblockInstance.getSkyblock());
 
         Bukkit.getPluginManager().registerEvents(new CratesInteract(skyblockInstance), skyblockInstance.getSkyblock());
-
         Bukkit.getPluginManager().registerEvents(new SpawnProtectionEventHandler(skyblockInstance), skyblockInstance.getSkyblock());
+
+        Bukkit.getPluginManager().registerEvents(new PlayerXpEarningListener(skyblockInstance), skyblockInstance.getSkyblock());
     }
 
 }
