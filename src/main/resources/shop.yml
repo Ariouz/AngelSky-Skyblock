@@ -23,7 +23,7 @@ items:
   shop:
     blocks:
       dirt:
-        display: "&7Terre"
+        display: "&fTerre"
         lore:
           - "&7Bloc de terre"
           - "&aAchat: %buy_price%"

@@ -5,6 +5,8 @@ import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblock.managers.ItemManager;
 import fr.mrmicky.fastinv.FastInv;
 import fr.mrmicky.fastinv.ItemBuilder;
+import io.th0rgal.oraxen.api.OraxenItems;
+import io.th0rgal.oraxen.items.ItemUpdater;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -20,7 +22,7 @@ public class ShopMenu {
     private final SkyblockInstance skyblockInstance;
     private final ShopManager shopManager;
     private final String display;
-    private int size;
+    private final int size;
 
     public ShopMenu(SkyblockInstance skyblockInstance, ShopManager shopManager){
         this.skyblockInstance = skyblockInstance;
@@ -50,6 +52,7 @@ public class ShopMenu {
             inv.setItem(category.getSlot(), categoryItem.build(), event -> {
                 event.setCancelled(true);
                 this.openCategoryMenu(this.display, 6*9, category, player, 0);
+                player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
             });
         }
 
@@ -72,7 +75,6 @@ public class ShopMenu {
         inv.setItems(inv.getBorders(), border, event -> event.setCancelled(true));
 
         int itemsPerPage = 4*7;
-        int i = itemsPerPage*page; // START INDEX
         int j = -1;
         // CATEGORY'S ITEMS
 
@@ -80,18 +82,25 @@ public class ShopMenu {
             j++;
             if(j == itemsPerPage*page+itemsPerPage) break; // STOP IF LAST INDEX IS REACHED
             if (j < itemsPerPage * page) continue; // SKIP UNTIL INDEX >= PAGE ITEMS
-            if (item.getItem() == null)
+            if (item.getItem() == null && !item.isOraxenItem())
             {
-                skyblockInstance.getSkyblock().getLogger().log(Level.WARNING, "Material is null for item " + item.getIdStr());
+                skyblockInstance.getSkyblock().getLogger().log(Level.WARNING, "Material is null is not oraxen item for " + item.getIdStr());
                 continue;
             }
-            ItemBuilder shopItem = new ItemBuilder(item.getItem())
-                    .name(item.getDisplay())
-                    .lore(item.getLore());
+            ItemBuilder shopItem;
+
+            if (item.isOraxenItem()){
+                shopItem = new ItemBuilder(OraxenItems.getItemById(item.getOraxenItemId()).build()).addLore(item.getLore());
+            }else{
+                 shopItem = new ItemBuilder(item.getItem())
+                        .name(item.getDisplay())
+                        .lore(item.getLore());
+            }
 
             inv.addItem(shopItem.build(), event -> {
                 event.setCancelled(true);
                 this.openShopItemMenu(this.display + " " + item.getDisplay(), 5*9, item, player);
+                player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
             });
         }
 
@@ -109,9 +118,15 @@ public class ShopMenu {
         ItemStack next = new ItemBuilder(Material.ARROW)
                 .name(ChatColor.GOLD + "Page " + ChatColor.YELLOW + (page + 1) + ChatColor.DARK_GRAY + " (+1)")
                 .build();
-        if (page != 0) inv.setItem(47, previous, event -> this.openCategoryMenu(this.display, 6*9, category, player, page - 1));
+        if (page != 0) inv.setItem(47, previous, event -> {
+            this.openCategoryMenu(this.display, 6*9, category, player, page - 1);
+            player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
+        });
         inv.setItem(49, current);
-        if(page+1 <= maxPages && hasItemOnNextPage) inv.setItem(51, next, event -> this.openCategoryMenu(this.display, 6*9, category, player, page + 1));
+        if(page+1 <= maxPages && hasItemOnNextPage) inv.setItem(51, next, event -> {
+            this.openCategoryMenu(this.display, 6*9, category, player, page + 1);
+            player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
+        });
 
         // BACK ITEM
 
@@ -130,10 +145,15 @@ public class ShopMenu {
     public void openShopItemMenu(String display, int size, ShopItem shopItem, Player player){
         FastInv inv = new FastInv(size, display);
 
-        ItemBuilder item = new ItemBuilder(shopItem.getItem())
-                .name(shopItem.getDisplay())
-                .lore(shopItem.getLore());
+        ItemBuilder item;
 
+        if (shopItem.isOraxenItem()){
+            item = new ItemBuilder(OraxenItems.getItemById(shopItem.getOraxenItemId()).build()).addLore(shopItem.getLore());
+        }else{
+            item = new ItemBuilder(shopItem.getItem())
+                    .name(shopItem.getDisplay())
+                    .lore(shopItem.getLore());
+        }
 
         ItemBuilder buy = new ItemBuilder(Material.GREEN_TERRACOTTA)
                 .name(ChatColor.translateAlternateColorCodes('&', shopItem.isCanBeBought() ? "&a&lAcheter" : "&cNe peut pas être acheté"));
@@ -151,11 +171,13 @@ public class ShopMenu {
         inv.setItem(29, buy.build(), event -> {
             event.setCancelled(true);
             if(shopItem.isCanBeBought()) this.openBuyMenu(display, size, shopItem, player);
+            player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
         });
 
         inv.setItem(31, sell.build(), event -> {
             event.setCancelled(true);
             if(shopItem.isCanBeSold()) this.openSellMenu(display, size, shopItem, player);
+            player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
         });
 
         inv.setItem(33, sellAll.build(), event -> {
@@ -174,9 +196,14 @@ public class ShopMenu {
     public void openBuyMenu(String display, int size, ShopItem shopItem, Player player){
         FastInv inv = new FastInv(size, display);
 
-        ItemBuilder item = new ItemBuilder(shopItem.getItem())
-                .name(shopItem.getDisplay())
-                .lore(shopItem.getLore());
+        ItemBuilder item;
+
+        if (shopItem.isOraxenItem()) item = new ItemBuilder(OraxenItems.getItemById(shopItem.getOraxenItemId()).build()).addLore(shopItem.getLore());
+        else{
+            item = new ItemBuilder(shopItem.getItem())
+                    .name(shopItem.getDisplay())
+                    .lore(shopItem.getLore());
+        }
 
         inv.setItem(13, item.build());
 
@@ -186,9 +213,7 @@ public class ShopMenu {
             ItemBuilder itemBuilder = new ItemBuilder(Material.LIME_STAINED_GLASS_PANE)
                     .name(ChatColor.translateAlternateColorCodes('&', "&a&lAcheter &8x&2" + i))
                     .lore(ChatColor.translateAlternateColorCodes('&', "&7Acheter pour &2" + (shopItem.getBuyPrice() * i > 1000 ? NumbersSeparator.LanguageFormatter.USA.convert((int) (shopItem.getBuyPrice()*i), 3) : shopItem.getBuyPrice() * i) + " &fAngelCoins " + SkyblockInstance.COIN));
-            inv.setItem(startSlot, itemBuilder.build(), event -> {
-                this.shopManager.buyItem(shopItem, i, player);
-            });
+            inv.setItem(startSlot, itemBuilder.build(), event -> this.shopManager.buyItem(shopItem, i, player));
             startSlot++;
         }
 
@@ -197,6 +222,7 @@ public class ShopMenu {
 
         inv.setItem(startSlot, buyMore.build(), event -> {
             this.openBuyMoreMenu(display, size, shopItem, player);
+            player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
         });
 
         ItemBuilder back = new ItemBuilder(Material.ARROW)
@@ -212,10 +238,14 @@ public class ShopMenu {
     public void openBuyMoreMenu(String display, int size, ShopItem shopItem, Player player){
         FastInv inv = new FastInv(size, display);
 
-        ItemBuilder item = new ItemBuilder(shopItem.getItem())
-                .name(shopItem.getDisplay())
-                .lore(shopItem.getLore());
+        ItemBuilder item;
 
+        if (shopItem.isOraxenItem()) item = new ItemBuilder(OraxenItems.getItemById(shopItem.getOraxenItemId()).build()).addLore(shopItem.getLore());
+        else{
+            item = new ItemBuilder(shopItem.getItem())
+                    .name(shopItem.getDisplay())
+                    .lore(shopItem.getLore());
+        }
         inv.setItem(13, item.build());
 
         int[] amounts = {2, 3, 4, 5, 6, 7, 8};
@@ -224,9 +254,7 @@ public class ShopMenu {
             ItemBuilder itemBuilder = new ItemBuilder(Material.GREEN_TERRACOTTA)
                     .name(ChatColor.translateAlternateColorCodes('&', "&2&lAcheter &8x&2" + i + " &a&lStacks"))
                     .lore(ChatColor.translateAlternateColorCodes('&', "&7Acheter pour &2" + (shopItem.getBuyPrice() * i*64 > 1000 ? NumbersSeparator.LanguageFormatter.USA.convert((int) (shopItem.getBuyPrice()*i*64), 3) : shopItem.getBuyPrice() * i*64) + " &fAngelCoins " + SkyblockInstance.COIN));
-            inv.setItem(startSlot, itemBuilder.build(), event -> {
-                this.shopManager.buyItem(shopItem, i*64, player);
-            });
+            inv.setItem(startSlot, itemBuilder.build(), event -> this.shopManager.buyItem(shopItem, i*64, player));
             startSlot++;
         }
 
@@ -242,9 +270,15 @@ public class ShopMenu {
     public void openSellMenu(String display, int size, ShopItem shopItem, Player player){
         FastInv inv = new FastInv(size, display);
 
-        ItemBuilder item = new ItemBuilder(shopItem.getItem())
-                .name(shopItem.getDisplay())
-                .lore(shopItem.getLore());
+        ItemBuilder item;
+
+        if (shopItem.isOraxenItem()){
+            item = new ItemBuilder(OraxenItems.getItemById(shopItem.getOraxenItemId()).build()).addLore(shopItem.getLore());
+        }else{
+            item = new ItemBuilder(shopItem.getItem())
+                    .name(shopItem.getDisplay())
+                    .lore(shopItem.getLore());
+        }
 
         inv.setItem(13, item.build());
 
@@ -254,9 +288,7 @@ public class ShopMenu {
             ItemBuilder itemBuilder = new ItemBuilder(Material.RED_STAINED_GLASS_PANE)
                     .name(ChatColor.translateAlternateColorCodes('&', "&c&lVendre &8x&4" + i))
                     .lore(ChatColor.translateAlternateColorCodes('&', "&7Vendre pour &4" + (shopItem.getSellPrice() * i > 1000 ? NumbersSeparator.LanguageFormatter.USA.convert((int) (shopItem.getSellPrice()*i), 3) : shopItem.getSellPrice() * i) + " &fAngelCoins " + SkyblockInstance.COIN));
-            inv.setItem(startSlot, itemBuilder.build(), event -> {
-                this.shopManager.sellItem(shopItem, i, player);
-            });
+            inv.setItem(startSlot, itemBuilder.build(), event -> this.shopManager.sellItem(shopItem, i, player));
             startSlot++;
         }
 
@@ -265,6 +297,7 @@ public class ShopMenu {
 
         inv.setItem(startSlot, sellMore.build(), event -> {
             this.openSellMoreMenu(display, size, shopItem, player);
+            player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
         });
 
         ItemBuilder back = new ItemBuilder(Material.ARROW)
@@ -280,9 +313,15 @@ public class ShopMenu {
     public void openSellMoreMenu(String display, int size, ShopItem shopItem, Player player){
         FastInv inv = new FastInv(size, display);
 
-        ItemBuilder item = new ItemBuilder(shopItem.getItem())
-                .name(shopItem.getDisplay())
-                .lore(shopItem.getLore());
+        ItemBuilder item;
+
+        if (shopItem.isOraxenItem()){
+            item = new ItemBuilder(OraxenItems.getItemById(shopItem.getOraxenItemId()).build()).addLore(shopItem.getLore());
+        }else{
+            item = new ItemBuilder(shopItem.getItem())
+                    .name(shopItem.getDisplay())
+                    .lore(shopItem.getLore());
+        }
 
         inv.setItem(13, item.build());
 
@@ -292,9 +331,7 @@ public class ShopMenu {
             ItemBuilder itemBuilder = new ItemBuilder(Material.RED_TERRACOTTA)
                     .name(ChatColor.translateAlternateColorCodes('&', "&4&lVendre &8x&4" + i + " &4&lStacks"))
                     .lore(ChatColor.translateAlternateColorCodes('&', "&7Vendre pour &4" + (shopItem.getSellPrice() * i*64 > 1000 ? NumbersSeparator.LanguageFormatter.USA.convert((int) (shopItem.getSellPrice()*i*64), 3) : shopItem.getSellPrice() * i*64) + " &fAngelCoins " + SkyblockInstance.COIN));
-            inv.setItem(startSlot, itemBuilder.build(), event -> {
-                this.shopManager.sellItem(shopItem, i*64, player);
-            });
+            inv.setItem(startSlot, itemBuilder.build(), event -> this.shopManager.sellItem(shopItem, i*64, player));
             startSlot++;
         }
 
@@ -307,18 +344,22 @@ public class ShopMenu {
         player.openInventory(inv.getInventory());
     }
 
+    @SuppressWarnings("deprecation")
     public void sellAll(ShopItem shopItem, Player player){
-        int amount = new ItemManager().getAmount(player, new ItemStack(shopItem.getItem()));
+        ItemStack item;
+        if (shopItem.isOraxenItem()) item = ItemUpdater.updateItem((OraxenItems.getItemById(shopItem.getOraxenItemId()).build()));
+        else item = new ItemBuilder(shopItem.getItem()).build();
+        int amount = new ItemManager().getAmount(player, new ItemStack(item));
 
-        if(!player.getInventory().containsAtLeast(new ItemStack(shopItem.getItem()), amount) || amount == 0){
+        if(!player.getInventory().containsAtLeast(item, amount) || amount == 0){
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', SkyblockInstance.PREFIX + "&cVous n'avez pas suffisamment de cet item pour vendre."));
             player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 15, 10);
             return;
         }
 
-        new ItemManager().removeItems(player, player.getInventory(), new ItemStack(shopItem.getItem()), amount);
+        new ItemManager().removeItems(player, player.getInventory(), item, amount);
         skyblockInstance.getSkyBlockApiInstance().getEconomy().depositPlayer(player, amount*shopItem.getSellPrice());
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', SkyblockInstance.PREFIX + "Vous avez vendu &7x"+amount+" " + shopItem.getDisplay() + " &fpour &6"+(amount*shopItem.getSellPrice())+ " &fAngelCoins " + SkyblockInstance.COIN));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', SkyblockInstance.PREFIX + "Vous avez vendu &7x"+amount+" " + (shopItem.isOraxenItem() ? item.getItemMeta().getDisplayName() : shopItem.getDisplay()) + " &fpour &6"+(amount*shopItem.getSellPrice())+ " &fAngelCoins " + SkyblockInstance.COIN));
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 15, 10);
     }
 }

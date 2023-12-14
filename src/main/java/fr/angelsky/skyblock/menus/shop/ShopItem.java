@@ -15,8 +15,10 @@ public class ShopItem {
     private final Material item;
     private final double buyPrice, sellPrice;
     private final boolean canBeBought, canBeSold;
+    private final boolean isOraxenItem;
+    private final String oraxenItemId;
 
-    public ShopItem(int id, ShopCategory shopCategory, String idStr, String display, ArrayList<String> lore, Material item, double buyPrice, double sellPrice, boolean canBeBought, boolean canBeSold) {
+    public ShopItem(int id, ShopCategory shopCategory, String idStr, String display, ArrayList<String> lore, Material item, double buyPrice, double sellPrice, boolean canBeBought, boolean canBeSold, boolean isOraxenItem, String oraxenItemId) {
         this.id = id;
         this.shopCategory = shopCategory;
         this.idStr = idStr;
@@ -27,6 +29,8 @@ public class ShopItem {
         this.sellPrice = sellPrice;
         this.canBeBought = canBeBought;
         this.canBeSold = canBeSold;
+        this.isOraxenItem = isOraxenItem;
+        this.oraxenItemId = oraxenItemId;
     }
 
     public int getId() {
@@ -69,4 +73,11 @@ public class ShopItem {
         return canBeSold;
     }
 
+    public boolean isOraxenItem() {
+        return isOraxenItem;
+    }
+
+    public String getOraxenItemId() {
+        return oraxenItemId;
+    }
 }

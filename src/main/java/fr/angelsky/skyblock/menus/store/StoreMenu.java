@@ -69,10 +69,14 @@ public class StoreMenu {
 
         ItemBuilder back = new ItemBuilder(Material.ARROW)
                 .setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cRetour"));
-        fastInv.setItem(fastInv.getInventory().getSize()-1, back.build(), event -> skyblockInstance.getManagerLoader().getMenuManager().getMainMenu().menu(player, skyblockInstance.getTempAccounts().get(player.getName())));
+        fastInv.setItem(fastInv.getInventory().getSize()-1, back.build(), event -> {
+            skyblockInstance.getManagerLoader().getMenuManager().getMainMenu().menu(player, skyblockInstance.getTempAccounts().get(player.getName()));
+            player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
+        });
         fastInv.open(player);
     }
 
+    @SuppressWarnings("deprecation")
     public void openRanksMenu(Player player){
         FastInv fastInv = new FastInv(5*9, "» Grades");
 
@@ -166,7 +170,10 @@ public class StoreMenu {
 
         ItemBuilder back = new ItemBuilder(Material.ARROW)
                 .setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cRetour"));
-        fastInv.setItem(fastInv.getInventory().getSize()-1, back.build(), event -> this.openStoreMenu(player));
+        fastInv.setItem(fastInv.getInventory().getSize()-1, back.build(), event -> {
+            this.openStoreMenu(player);
+            player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
+        });
         fastInv.open(player);
     }
 
@@ -197,7 +204,10 @@ public class StoreMenu {
 
         ItemBuilder back = new ItemBuilder(Material.ARROW)
                 .setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cRetour"));
-        fastInv.setItem(fastInv.getInventory().getSize()-1, back.build(), event -> this.openStoreMenu(player));
+        fastInv.setItem(fastInv.getInventory().getSize()-1, back.build(), event -> {
+            this.openStoreMenu(player);
+            player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
+        });
         fastInv.open(player);
     }
 
