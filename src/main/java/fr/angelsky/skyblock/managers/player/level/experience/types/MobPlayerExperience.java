@@ -8,8 +8,19 @@ public enum MobPlayerExperience {
 
     ZOMBIE(EntityType.ZOMBIE, 1, 10 / 100f),
     SKELETON(EntityType.SKELETON, 1, 10 / 100f),
+    SPIDER(EntityType.SPIDER, 1, 15 / 100f),
+    CREEPER(EntityType.CREEPER, 1, 20 / 100f),
+    WITCH(EntityType.WITCH, 3, 60 / 100f),
+    PHANTOM(EntityType.PHANTOM, 5, 90 / 100f),
+    SLIME(EntityType.SLIME, 2, 75 / 100f),
+    MAGMA_CUBE(EntityType.MAGMA_CUBE, 3, 50 / 100f),
 
-
+    COW(EntityType.COW, 2, 50 / 100f),
+    CHICKEN(EntityType.CHICKEN, 1, 50 / 100f),
+    SHEEP(EntityType.SHEEP, 2, 50 / 100f),
+    HORSE(EntityType.HORSE, 4, 75 / 100f),
+    PIG(EntityType.PIG, 1, 50 / 100f),
+    RABBIT(EntityType.RABBIT, 5, 60 / 100f),
     ;
 
     private final EntityType entityType;
