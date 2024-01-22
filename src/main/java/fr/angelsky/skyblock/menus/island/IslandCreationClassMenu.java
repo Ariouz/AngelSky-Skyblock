@@ -53,7 +53,7 @@ public class IslandCreationClassMenu {
                         ChatColor.translateAlternateColorCodes('&', "&a"),
                         ChatColor.translateAlternateColorCodes('&', "&7» Île de base"),
                         ChatColor.translateAlternateColorCodes('&', "&7» Classe:"),
-                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Boost Vitesse de Farm: &cniveau 2 (+5%)"),
+                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Générateur: &cniveau 2"),
                         ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Kit &6Fermier&7:"),
                         ChatColor.translateAlternateColorCodes('&', "&7»     &f• &6x1 &eHoue en fer"),
                         ChatColor.translateAlternateColorCodes('&', "&7»     &f• &6x8 &eGraine de blé"),
@@ -85,7 +85,7 @@ public class IslandCreationClassMenu {
             tempPlayer.getSuperiorPlayer().teleport(tempPlayer.getIsland());
             player.sendMessage(SkyblockInstance.PREFIX + "Votre île a été créée");
             Island island = tempPlayer.getIsland();
-            Upgrade upgrade = SuperiorSkyblockAPI.getUpgrades().getUpgrade("crop-growth");
+            Upgrade upgrade = SuperiorSkyblockAPI.getUpgrades().getUpgrade("generator-rates");
             island.setUpgradeLevel(upgrade, 2);
             island.updateUpgrades();
             island.updateBorder();
