@@ -38,8 +38,7 @@ public class SpawnProtectionEventHandler implements Listener {
         TempPlayerAccount tempPlayerAccount = skyblockInstance.getAngelSkyApiInstance().getApiManager().getAccountManager().getAccount(event.getPlayer().getUniqueId());
         if(tempPlayerAccount.getRank().getPower() < Rank.ADMIN.getPower()){
             if(protectedWorlds.contains(event.getBlock().getWorld())){
-                if(event.getPlayer().getGameMode() != GameMode.CREATIVE) return;
-                event.setCancelled(true);
+                event.setCancelled(event.getPlayer().getGameMode() != GameMode.CREATIVE);
             }
         }
     }
@@ -49,7 +48,7 @@ public class SpawnProtectionEventHandler implements Listener {
         TempPlayerAccount tempPlayerAccount = skyblockInstance.getAngelSkyApiInstance().getApiManager().getAccountManager().getAccount(event.getPlayer().getUniqueId());
         if(tempPlayerAccount.getRank().getPower() < Rank.ADMIN.getPower()){
             if(protectedWorlds.contains(event.getBlock().getWorld())){
-                event.setCancelled(true);
+                event.setCancelled(event.getPlayer().getGameMode() != GameMode.CREATIVE);
             }
         }
     }
