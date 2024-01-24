@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class PlayerXpEarningListener implements Listener {
@@ -23,6 +25,7 @@ public class PlayerXpEarningListener implements Listener {
 
     @EventHandler
     public void playerKillMobExperienceEvent(EntityDamageByEntityEvent event){
+        if (event.isCancelled()) return;
         if (!(event.getDamager() instanceof Player player)) return;
         if (!(event.getEntity() instanceof Damageable)) return;
         Entity damaged = event.getEntity();
@@ -51,6 +54,19 @@ public class PlayerXpEarningListener implements Listener {
             return;
         }
         skyblockInstance.getManagerLoader().getPlayerExperienceManager().processBlockExperience(event.getPlayer(), blockXp, 0 , 0);
+    }
+
+    @EventHandler
+    public void playerEnchantExperienceEvent(EnchantItemEvent event){
+        if (event.isCancelled()) return;
+        skyblockInstance.getManagerLoader().getPlayerExperienceManager().processEnchantExperience(event.getEnchanter(), event.whichButton() + 1, 0 , 0);
+    }
+
+    @EventHandler
+    public void playerBreedExperienceEvent(EntityBreedEvent event){
+        if (event.isCancelled()) return;
+        if (!(event.getBreeder() instanceof Player)) return;
+        skyblockInstance.getManagerLoader().getPlayerExperienceManager().processBreedExperience((Player) event.getBreeder(), 2, 0 , 0);
     }
 
     public void removeMetadata(Block block){

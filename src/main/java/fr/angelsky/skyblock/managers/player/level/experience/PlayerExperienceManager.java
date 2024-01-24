@@ -30,6 +30,14 @@ public class PlayerExperienceManager {
         giveExperience(player, block.getXp(), block.getProbability(), probabilityBoost, xpBoost);
     }
 
+    public void processEnchantExperience(Player player, int enchantXp, int probabilityBoost, int xpBoost){
+        giveExperience(player, enchantXp, 0.5f, probabilityBoost, xpBoost);
+    }
+
+    public void processBreedExperience(Player player, int enchantXp, int probabilityBoost, int xpBoost){
+        giveExperience(player, enchantXp, 0.5f, probabilityBoost, xpBoost);
+    }
+
     private void giveExperience(Player player, int xp, float probability, int probabilityBoost, int xpBoost){
         int earnedXp = getExperienceWithProbability(xp, probability, probabilityBoost, xpBoost);
         if (earnedXp == 0) return;
