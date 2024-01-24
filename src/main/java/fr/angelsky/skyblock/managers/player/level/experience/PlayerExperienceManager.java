@@ -2,6 +2,7 @@ package fr.angelsky.skyblock.managers.player.level.experience;
 
 import fr.angelsky.angelskyapi.api.utils.HexColors;
 import fr.angelsky.skyblock.SkyblockInstance;
+import fr.angelsky.skyblock.managers.player.level.experience.types.BlockPlayerExperience;
 import fr.angelsky.skyblock.managers.player.level.experience.types.MobPlayerExperience;
 import fr.angelsky.skyblockapi.accounts.TempPlayer;
 import fr.angelsky.skyblockapi.managers.level.PlayerLevel;
@@ -22,8 +23,11 @@ public class PlayerExperienceManager {
     public void processEntityExperience(Player player, EntityType entityType, int probabilityBoost, int xpBoost){
         MobPlayerExperience mob = MobPlayerExperience.getByEntityType(entityType);
         if (mob == null) return;
-        System.out.println("Mob died: " + entityType);
         giveExperience(player, mob.getXp(), mob.getProbability(), probabilityBoost, xpBoost);
+    }
+
+    public void processBlockExperience(Player player, BlockPlayerExperience block, int probabilityBoost, int xpBoost){
+        giveExperience(player, block.getXp(), block.getProbability(), probabilityBoost, xpBoost);
     }
 
     private void giveExperience(Player player, int xp, float probability, int probabilityBoost, int xpBoost){
@@ -35,7 +39,7 @@ public class PlayerExperienceManager {
         playerLevel.addXp(earnedXp);
         skyblockInstance.getManagerLoader().getActionBarManager().sendActionBar(player, skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(
                 "&2+" + HexColors.LIGHT_GREEN + earnedXp + " xp &8- &7" + (int) playerLevel.getXp() + "&f/&7" + playerLevel.getNeededXpForLevel()),
-                1);
+                2);
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 15, 10);
     }
 

@@ -10,6 +10,7 @@ import fr.angelsky.skyblock.listeners.player.level.PlayerXpEarningListener;
 import fr.angelsky.skyblock.listeners.server.PlayerJoinListener;
 import fr.angelsky.skyblock.listeners.server.PlayerQuitListener;
 import fr.angelsky.skyblock.listeners.server.crates.CratesInteract;
+import fr.angelsky.skyblock.listeners.world.BlockPlaceListener;
 import fr.angelsky.skyblock.listeners.world.SpawnProtectionEventHandler;
 import org.bukkit.Bukkit;
 
@@ -35,6 +36,7 @@ public class EventManager {
 
         Bukkit.getPluginManager().registerEvents(new CratesInteract(skyblockInstance), skyblockInstance.getSkyblock());
         Bukkit.getPluginManager().registerEvents(new SpawnProtectionEventHandler(skyblockInstance), skyblockInstance.getSkyblock());
+        Bukkit.getPluginManager().registerEvents(new BlockPlaceListener(skyblockInstance), skyblockInstance.getSkyblock());
 
         Bukkit.getPluginManager().registerEvents(new PlayerXpEarningListener(skyblockInstance), skyblockInstance.getSkyblock());
     }
