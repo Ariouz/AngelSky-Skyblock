@@ -3,7 +3,8 @@ package fr.angelsky.skyblock.managers.utils.menu;
 import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblock.menus.island.IslandCreationClassMenu;
 import fr.angelsky.skyblock.menus.island.IslandTokensMenu;
-import fr.angelsky.skyblock.menus.island.LevelsMenu;
+import fr.angelsky.skyblock.menus.island.levels.BlocksValueLevelSubMenu;
+import fr.angelsky.skyblock.menus.island.levels.LevelsMenu;
 import fr.angelsky.skyblock.menus.main.MainMenu;
 import fr.angelsky.skyblock.menus.rewards.daily.DailyRewardMenu;
 import fr.angelsky.skyblock.menus.store.StoreMenu;
@@ -16,6 +17,7 @@ public class MenuManager {
     private IslandTokensMenu islandTokensMenu;
     private MainMenu mainMenu;
     private LevelsMenu levelsMenu;
+    private BlocksValueLevelSubMenu blocksValueLevelSubMenu;
     private StoreMenu storeMenu;
     private DailyRewardMenu dailyRewardMenu;
 
@@ -28,6 +30,7 @@ public class MenuManager {
         this.islandCreationClassMenu = new IslandCreationClassMenu(skyblockInstance);
         this.mainMenu = new MainMenu(skyblockInstance);
         this.levelsMenu = new LevelsMenu(skyblockInstance);
+        this.blocksValueLevelSubMenu = new BlocksValueLevelSubMenu(skyblockInstance);
         this.islandTokensMenu = new IslandTokensMenu(skyblockInstance);
         this.storeMenu = new StoreMenu(skyblockInstance);
         this.dailyRewardMenu = new DailyRewardMenu(skyblockInstance);
@@ -43,6 +46,10 @@ public class MenuManager {
 
     public LevelsMenu getLevelsMenu() {
         return levelsMenu;
+    }
+
+    public BlocksValueLevelSubMenu getBlocksValueLevelSubMenu() {
+        return blocksValueLevelSubMenu;
     }
 
     public IslandTokensMenu getIslandTokensMenu() {

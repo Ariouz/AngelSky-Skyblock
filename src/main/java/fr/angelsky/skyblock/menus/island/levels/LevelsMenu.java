@@ -1,4 +1,4 @@
-package fr.angelsky.skyblock.menus.island;
+package fr.angelsky.skyblock.menus.island.levels;
 
 import fr.angelsky.angelskyapi.api.utils.math.NumbersSeparator;
 import fr.angelsky.skyblock.SkyblockInstance;
@@ -9,6 +9,7 @@ import fr.mrmicky.fastinv.FastInv;
 import fr.mrmicky.fastinv.ItemBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -72,25 +73,18 @@ public class LevelsMenu {
                 boolean hasPassed = false;
                 boolean current = false;
 
-                if(tempPlayer.getPlayerLevel().getLevelRank() > i){
+                if (tempPlayer.getPlayerLevel().getLevelRank() > i)
                     hasPassed = true;
-                }else if(tempPlayer.getPlayerLevel().getLevelRank() == i){
-                    if(tempPlayer.getPlayerLevel().getLevel() > j){
-                        hasPassed = true;
-                    }else if(tempPlayer.getPlayerLevel().getLevel() == j){
-                        current = true;
-                    }
+                else if (tempPlayer.getPlayerLevel().getLevelRank() == i){
+                    if (tempPlayer.getPlayerLevel().getLevel() > j) hasPassed = true;
+                    else if(tempPlayer.getPlayerLevel().getLevel() == j) current = true;
                 }
 
                 int moneyLevelReward = (int) Math.round((Math.pow(j, 1.2) * i) + 0.7 * (j*500));
                 String loreMessage = "";
-                if(current){
-                    loreMessage = ChatColor.GOLD + "Niveau en cours";
-                }else if(hasPassed){
-                    loreMessage = ChatColor.GREEN + "Niveau terminé";
-                }else{
-                    loreMessage = ChatColor.RED + "Niveau non terminé";
-                }
+                if(current) loreMessage = ChatColor.GOLD + "Niveau en cours";
+                else if(hasPassed) loreMessage = ChatColor.GREEN + "Niveau terminé";
+                else loreMessage = ChatColor.RED + "Niveau non atteint";
 
                 String levelDisplay = levelRank.getLevelRank(i).getDisplay() + "[" + levelColor.getColorForLevel(j) + j +
                         levelRank.getLevelRank(i).getDisplay() + "]";
@@ -118,9 +112,18 @@ public class LevelsMenu {
             }
         }
 
-        // INT DIVISION AUTO ROUND UP IF REMAINING LEVELS
+        // INT DIVISION ROUNDS UP IF REMAINING LEVELS
         int maxPages = (maxLevel * (maxRank+1) + maxRank+1) / itemsPerPage;
         pageArrows(player, tempPlayer, fastInv, page, maxPages);
+
+        ItemStack blocksValues = new ItemBuilder(Material.KNOWLEDGE_BOOK)
+                .name(skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("##37765D#&lGagner de l'XP"))
+                .build();
+        fastInv.setItem(50, blocksValues, event -> {
+            event.setCancelled(true);
+            skyblockInstance.getManagerLoader().getMenuManager().getBlocksValueLevelSubMenu().openMainBlocksValueMenu(player);
+            player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
+        });
         fastInv.open(player);
     }
 

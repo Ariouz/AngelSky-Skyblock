@@ -38,7 +38,7 @@ public class PlayerXpEarningListener implements Listener {
         if (event.isCancelled()) return;
         Block block = event.getBlock();
         BlockData blockData = block.getBlockData();
-        BlockPlayerExperience blockXp = BlockPlayerExperience.getByEntityType(block.getType());
+        BlockPlayerExperience blockXp = BlockPlayerExperience.getByType(block.getType());
         if (blockXp == null) {
             removeMetadata(block);
             return;
