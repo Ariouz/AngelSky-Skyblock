@@ -55,7 +55,7 @@ public class PlayerExperienceManager {
         float randomValue = new Random().nextFloat();
         float totalProbability = probability * 1 + (probabilityBoost / 100f);
 
-        System.out.println("Proba : " + totalProbability + " value: "+ randomValue);
+        //System.out.println("Proba : " + totalProbability + " value: "+ randomValue);
         if (totalProbability > randomValue) return (int) (xp / (1 + (xpBoost / 100f)));
         return 0;
     }
