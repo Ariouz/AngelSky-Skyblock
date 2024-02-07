@@ -1,7 +1,9 @@
 package fr.angelsky.skyblock.menus.island.levels;
 
+import fr.angelsky.angelskyapi.api.utils.HexColors;
 import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblock.managers.player.level.experience.types.BlockPlayerExperience;
+import fr.angelsky.skyblock.managers.player.level.experience.types.MobPlayerExperience;
 import fr.angelsky.skyblock.managers.player.level.experience.types.PlayerXpTypes;
 import fr.mrmicky.fastinv.FastInv;
 import fr.mrmicky.fastinv.ItemBuilder;
@@ -12,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+
 public class BlocksValueLevelSubMenu {
 
     private final SkyblockInstance skyblockInstance;
@@ -21,7 +25,7 @@ public class BlocksValueLevelSubMenu {
     }
 
     public void openMainBlocksValueMenu(Player player){
-        FastInv inv = new FastInv(5 * 9, "Gains d'XP");
+        FastInv inv = new FastInv(5 * 9, "Gains d'Xp");
 
         ItemStack borders = new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE).name(ChatColor.RED + "").build();
         for (int i : inv.getBorders())
@@ -52,28 +56,18 @@ public class BlocksValueLevelSubMenu {
     }
 
     public void openCategory(Player player, PlayerXpTypes type){
-        switch (type) {
-            case FARMS -> openFarmsMenu(player);
-            /*case MOBS -> openFarmsMenu(player);
-            case FISHING -> openFarmsMenu(player);
-            case ENCHANT -> openFarmsMenu(player);
-            case BLOCKS -> openFarmsMenu(player);*/
-        }
-    }
-
-    public void openFarmsMenu(Player player){
-        FastInv inv = new FastInv(5 * 9, "Agriculture");
+        FastInv inv = new FastInv(5 * 9, "Gains d'Xp");
 
         ItemStack borders = new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE).name(ChatColor.RED + "").build();
         for (int i : inv.getBorders())
             inv.setItem(i, borders);
 
-        for (BlockPlayerExperience type : BlockPlayerExperience.values()){
-            if (!type.isFarm()) continue;
-            ItemStack item = new ItemBuilder(type.getIcon() == null ? type.getType() : type.getIcon())
-                    .name(skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(type.name()))
-                    .build();
-            inv.addItem(item, event -> event.setCancelled(true));
+        switch (type) {
+            case FARMS -> fillFarmsMenu(inv);
+            case MOBS -> fillMobsMenu(inv);
+            /*case FISHING -> openFarmsMenu(player);
+            case ENCHANT -> openFarmsMenu(player);
+            */case BLOCKS -> fillBlocksMenu(inv);
         }
 
         ItemStack backArrow = new ItemBuilder(Material.ARROW).name(ChatColor.RED + "Retour").build();
@@ -84,6 +78,51 @@ public class BlocksValueLevelSubMenu {
         });
 
         inv.open(player);
+    }
+
+    public void fillFarmsMenu(FastInv inv){
+        for (BlockPlayerExperience type : BlockPlayerExperience.values()){
+            if (!type.isFarm()) continue;
+            ItemStack item = new ItemBuilder(type.getIcon() == null ? type.getType() : type.getIcon())
+                    .name(skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(HexColors.LIGHT_GREEN + type.getDisplay()))
+                    .lore(Arrays.asList(
+                            skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(ChatColor.GRAY + ""),
+                            skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("&7Gain d'XP: " + HexColors.SMOOTH_BLUE + type.getXp()),
+                            skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("&7Chance: " + HexColors.SMOOTH_GOLD + Math.round(type.getProbability() * 100) + HexColors.DARK_GOLD + "%")
+                    ))
+                    .build();
+            inv.addItem(item, event -> event.setCancelled(true));
+        }
+    }
+
+    public void fillBlocksMenu(FastInv inv){
+       for (BlockPlayerExperience type : BlockPlayerExperience.values()){
+            if (type.isFarm()) continue;
+            ItemStack item = new ItemBuilder(type.getIcon() == null ? type.getType() : type.getIcon())
+                    .name(skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(HexColors.LIGHT_GREEN + type.getDisplay()))
+                    .lore(Arrays.asList(
+                            skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(ChatColor.GRAY + ""),
+                            skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("&7Gain d'XP: " + HexColors.SMOOTH_BLUE + type.getXp()),
+                            skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("&7Chance: " + HexColors.SMOOTH_GOLD + Math.round(type.getProbability() * 100) + HexColors.DARK_GOLD + "%")
+                    ))
+                    .build();
+            inv.addItem(item, event -> event.setCancelled(true));
+        }
+    }
+
+    public void fillMobsMenu(FastInv inv){
+        for (MobPlayerExperience type : MobPlayerExperience.values()){
+            ItemStack item = new ItemBuilder(type.getIcon())
+                    .name(skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(HexColors.LIGHT_GREEN + type.getDisplay()))
+                    .lore(Arrays.asList(
+                            skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(ChatColor.GRAY + ""),
+                            skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("&7Gain d'XP: " + HexColors.SMOOTH_BLUE + type.getXp()),
+                            skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("&7Chance: " + HexColors.SMOOTH_GOLD + Math.round(type.getProbability() * 100) + HexColors.DARK_GOLD + "%")
+                    ))
+                    .flags(ItemFlag.HIDE_POTION_EFFECTS)
+                    .build();
+            inv.addItem(item, event -> event.setCancelled(true));
+        }
     }
 
 }
