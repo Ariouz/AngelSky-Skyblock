@@ -18,9 +18,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import xyz.xenondevs.particle.ParticleBuilder;
-import xyz.xenondevs.particle.ParticleEffect;
-import xyz.xenondevs.particle.data.texture.BlockTexture;
 
 import java.util.*;
 
@@ -67,17 +64,16 @@ public class CrateManager {
     }
 
     public void particleRun() {
-        ArrayList<ParticleBuilder> particles = new ArrayList<>();
-        particles.add((new ParticleBuilder(ParticleEffect.LAVA)).setSpeed(0.1F));
-        particles.add(new ParticleBuilder(ParticleEffect.BLOCK_CRACK));
-
+        /*ArrayList<ParticleType> particles = new ArrayList<>();
+        particles.add(ParticleType.of("LAVA"));
+        particles.add(ParticleType.of("BLOCK_CRACK")); // TODO ADD BLOCK MATERIAL*/
         this.task = new BukkitRunnable() {
             public void run() {
                 ArrayList<Location> toRemove = new ArrayList<>();
                 for (Map.Entry<Location, Crate> entries : openingCrates.entrySet()) {
                     entries.getValue().decreaseOpenTime(entries.getKey());
-                    particles.get(0).setLocation(entries.getKey()).display();
-                    particles.get(1).setLocation(entries.getKey().clone().add(0.0D, 0.6D, 0.0D)).setAmount(5).setParticleData(new BlockTexture(entries.getValue().getParticleBlock())).setSpeed(0.1F).display();
+                    //particles.get(0).spawn(entries.getKey().getWorld(), entries.getKey(), 1, 2, 2, 2);
+                    //particles.get(1).spawn(entries.getKey().getWorld(), entries.getKey().clone().add(0.0D, 0.6D, 0.0D), 5, 1, 1, 1);
 
                     if (entries.getValue().getOpenTime(entries.getKey()) <= 0){
                         endOpening(entries.getKey(), entries.getValue());
@@ -131,14 +127,14 @@ public class CrateManager {
                 item[0].setCustomNameVisible(true);
 
                 location.getWorld().playSound(location, Sound.BLOCK_BEACON_POWER_SELECT, 35, 0);
-                new ParticleBuilder(ParticleEffect.PORTAL).setAmount(10).setOffset(0,0,0).setLocation(location.toCenterLocation().add(0, 2, 0)).display();
+                //ParticleType.of("PORTAL").spawn(location.getWorld(), location.toCenterLocation().add(0, 2, 0), 10);
             }
         }.runTaskLater(skyblockInstance.getSkyblock(), 15);
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                new ParticleBuilder(ParticleEffect.EXPLOSION_HUGE).setLocation(location.toCenterLocation().add(0, 2, 0)).display();
+                //ParticleType.of("EXPLOSION_HUGE").spawn(location.getWorld(), location.toCenterLocation().add(0, 2, 0), 1);
                 location.getWorld().playSound(location, Sound.ENTITY_GENERIC_EXPLODE, 30, 15);
                 item[0].remove();
 
