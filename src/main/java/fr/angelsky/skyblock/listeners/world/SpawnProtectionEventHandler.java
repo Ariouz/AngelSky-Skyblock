@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent;
 import fr.angelsky.angelskyapi.api.accounts.TempPlayerAccount;
 import fr.angelsky.angelskyapi.api.enums.rank.Rank;
 import fr.angelsky.skyblock.SkyblockInstance;
+import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -12,9 +13,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -48,6 +47,40 @@ public class SpawnProtectionEventHandler implements Listener {
         TempPlayerAccount tempPlayerAccount = skyblockInstance.getAngelSkyApiInstance().getApiManager().getAccountManager().getAccount(event.getPlayer().getUniqueId());
         if(tempPlayerAccount.getRank().getPower() < Rank.ADMIN.getPower()){
             if(protectedWorlds.contains(event.getBlock().getWorld())){
+                event.setCancelled(event.getPlayer().getGameMode() != GameMode.CREATIVE);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onProtectedWorldSignEdit(SignChangeEvent event){
+        TempPlayerAccount tempPlayerAccount = skyblockInstance.getAngelSkyApiInstance().getApiManager().getAccountManager().getAccount(event.getPlayer().getUniqueId());
+        if(tempPlayerAccount.getRank().getPower() < Rank.ADMIN.getPower()){
+            if(protectedWorlds.contains(event.getBlock().getWorld())){
+                event.setCancelled(event.getPlayer().getGameMode() != GameMode.CREATIVE);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onProtectedWorldCauldronEdit(CauldronLevelChangeEvent event){
+        if (!(event.getEntity() instanceof Player player)){
+            event.setCancelled(true);
+            return ;
+        }
+        TempPlayerAccount tempPlayerAccount = skyblockInstance.getAngelSkyApiInstance().getApiManager().getAccountManager().getAccount(player.getUniqueId());
+        if(tempPlayerAccount.getRank().getPower() < Rank.ADMIN.getPower()){
+            if(protectedWorlds.contains(event.getBlock().getWorld())){
+                event.setCancelled(player.getGameMode() != GameMode.CREATIVE);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onProtectedWorldFlowerPotAction(PlayerFlowerPotManipulateEvent event){
+        TempPlayerAccount tempPlayerAccount = skyblockInstance.getAngelSkyApiInstance().getApiManager().getAccountManager().getAccount(event.getPlayer().getUniqueId());
+        if(tempPlayerAccount.getRank().getPower() < Rank.ADMIN.getPower()){
+            if(protectedWorlds.contains(event.getFlowerpot().getWorld())){
                 event.setCancelled(event.getPlayer().getGameMode() != GameMode.CREATIVE);
             }
         }
@@ -106,6 +139,8 @@ public class SpawnProtectionEventHandler implements Listener {
                     if(event.getClickedBlock().getType().toString().contains("TRAPDOOR")) event.setCancelled(true);
                     if(event.getClickedBlock().getType().toString().contains("DOOR")) event.setCancelled(true);
                     if(event.getClickedBlock().getType().toString().contains("ANVIL")) event.setCancelled(true);
+                    if(event.getClickedBlock().getType().toString().contains("FENCE_GATE")) event.setCancelled(true);
+                    if(event.getClickedBlock().getType().toString().contains("CAKE")) event.setCancelled(true);
                 }
             }
         }
