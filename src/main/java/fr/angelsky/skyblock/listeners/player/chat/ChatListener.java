@@ -22,7 +22,7 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
-        String message = event.getMessage();
+        String message = event.getMessage().replaceAll("%", "%%");
         TempPlayer tempPlayer = skyblockInstance.getTempAccounts().get(player.getName());
         TempPlayerAccount playerAccount = skyblockInstance.getAngelSkyApiInstance().getApiManager().getAccountManager().getAccount(player.getUniqueId());
 
