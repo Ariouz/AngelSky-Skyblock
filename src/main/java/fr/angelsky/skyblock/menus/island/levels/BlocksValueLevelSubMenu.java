@@ -31,18 +31,16 @@ public class BlocksValueLevelSubMenu {
         for (int i : inv.getBorders())
             inv.setItem(i, borders);
 
-        int slot = 20;
         for (PlayerXpTypes type : PlayerXpTypes.values()){
             ItemStack item = new ItemBuilder(type.getIcon())
                     .flags(ItemFlag.HIDE_ATTRIBUTES)
                     .name(skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(type.getDisplayName()))
                     .build();
-            inv.setItem(slot, item, event -> {
+            inv.setItem(type.getSlot(), item, event -> {
                 event.setCancelled(true);
                 this.openCategory(player, type);
                 player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
             });
-            slot++;
         }
 
         ItemStack backArrow = new ItemBuilder(Material.ARROW).name(ChatColor.RED + "Retour").build();
@@ -65,9 +63,10 @@ public class BlocksValueLevelSubMenu {
         switch (type) {
             case FARMS -> fillFarmsMenu(inv);
             case MOBS -> fillMobsMenu(inv);
-            /*case FISHING -> openFarmsMenu(player);
-            case ENCHANT -> openFarmsMenu(player);
-            */case BLOCKS -> fillBlocksMenu(inv);
+            //case FISHING -> openFarmsMenu(player);
+            case ENCHANT -> fillEnchantsMenu(inv);
+            case BLOCKS -> fillBlocksMenu(inv);
+            //case BREEDING -> fillBreedingMenu(inv);
         }
 
         ItemStack backArrow = new ItemBuilder(Material.ARROW).name(ChatColor.RED + "Retour").build();
@@ -119,7 +118,21 @@ public class BlocksValueLevelSubMenu {
                             skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("&7Gain d'XP: " + HexColors.SMOOTH_BLUE + type.getXp()),
                             skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("&7Chance: " + HexColors.SMOOTH_GOLD + Math.round(type.getProbability() * 100) + HexColors.DARK_GOLD + "%")
                     ))
-                    .flags(ItemFlag.HIDE_POTION_EFFECTS)
+                    .flags(ItemFlag.HIDE_ITEM_SPECIFICS)
+                    .build();
+            inv.addItem(item, event -> event.setCancelled(true));
+        }
+    }
+
+    public void fillEnchantsMenu(FastInv inv){
+        for (int i = 1; i <= 3; i++){
+            ItemStack item = new ItemBuilder(Material.BOOK)
+                    .name(skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(HexColors.LIGHT_GREEN + "Enchantement Niveau " + i))
+                    .lore(Arrays.asList(
+                            skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(ChatColor.GRAY + ""),
+                            skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("&7Gain d'XP: " + HexColors.SMOOTH_BLUE + i),
+                            skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("&7Chance: " + HexColors.SMOOTH_GOLD + 50 + HexColors.DARK_GOLD + "%")
+                    ))
                     .build();
             inv.addItem(item, event -> event.setCancelled(true));
         }

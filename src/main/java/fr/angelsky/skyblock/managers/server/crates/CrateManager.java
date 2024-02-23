@@ -154,7 +154,6 @@ public class CrateManager {
 
                 }
                 crate.setOpener(null);
-
             }
         }.runTaskLater(skyblockInstance.getSkyblock(), 60);
 
