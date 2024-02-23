@@ -1,9 +1,7 @@
 package fr.angelsky.skyblock.commands.player.misc;
 
 import fr.mrmicky.fastinv.FastInv;
-import fr.mrmicky.fastinv.ItemBuilder;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,9 +18,9 @@ public class TrashCommand implements CommandExecutor {
         }
 
         FastInv inv = new FastInv(5*9, "Poubelle");
-        for (int i : inv.getBorders()) {
+        /*for (int i : inv.getBorders()) {
             inv.setItem(i, new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).name(ChatColor.GREEN + "").build(), event -> event.setCancelled(true));
-        }
+        }*/
         player.openInventory(inv.getInventory());
         return true;
     }
