@@ -33,6 +33,8 @@ commands:
     description: Menu des niveaux
     aliases:
       - niveau
+      - level
+      - lvl
   shop:
     description: Menu du shop
   upgradetokens:
