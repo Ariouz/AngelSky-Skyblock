@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
@@ -99,7 +100,9 @@ public class ShopMenu {
 
             inv.addItem(shopItem.build(), event -> {
                 event.setCancelled(true);
-                this.openShopItemMenu(this.display + " " + item.getDisplay(), 5*9, item, player);
+                if (event.getClick() == ClickType.SHIFT_LEFT)
+                    this.sellAll(item, player);
+                else this.openShopItemMenu(this.display + " " + item.getDisplay(), 5*9, item, player);
                 player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
             });
         }
@@ -350,6 +353,13 @@ public class ShopMenu {
         if (shopItem.isOraxenItem()) item = ItemUpdater.updateItem((OraxenItems.getItemById(shopItem.getOraxenItemId()).build()));
         else item = new ItemBuilder(shopItem.getItem()).build();
         int amount = new ItemManager().getAmount(player, new ItemStack(item));
+
+        if (shopItem.getSellPrice() == -1)
+        {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', SkyblockInstance.PREFIX + "&cCet item ne peut pas être vendu."));
+            player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 15, 10);
+            return ;
+        }
 
         if(!player.getInventory().containsAtLeast(item, amount) || amount == 0){
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', SkyblockInstance.PREFIX + "&cVous n'avez pas suffisamment de cet item pour vendre."));
