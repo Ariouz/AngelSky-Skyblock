@@ -14,6 +14,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -48,6 +49,18 @@ public class SpawnProtectionEventHandler implements Listener {
         if(tempPlayerAccount.getRank().getPower() < Rank.ADMIN.getPower()){
             if(protectedWorlds.contains(event.getBlock().getWorld())){
                 event.setCancelled(event.getPlayer().getGameMode() != GameMode.CREATIVE);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onProtectedWorldBreed(EntityBreedEvent event){
+        if (!(event.getBreeder() instanceof Player player))
+                return;
+        TempPlayerAccount tempPlayerAccount = skyblockInstance.getAngelSkyApiInstance().getApiManager().getAccountManager().getAccount(player.getUniqueId());
+        if(tempPlayerAccount.getRank().getPower() < Rank.ADMIN.getPower()){
+            if(protectedWorlds.contains(player.getWorld())){
+                event.setCancelled(player.getGameMode() != GameMode.CREATIVE);
             }
         }
     }
