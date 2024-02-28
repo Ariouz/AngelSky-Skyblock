@@ -133,7 +133,7 @@ public class StoreMenu {
                         skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("##CF8232#»   &f• ##1CE28D#Pas de perte ##c8c8ca#d'expérience à la mort"),
                         skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("##CF8232#»   &f• ##c8c8ca#Message en &6couleur ##c8c8ca#dans le chat"),
                         skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("##CF8232#»   &f• ##c8c8ca#Accès à la surbrillance &6orange ##c8c8ca#(##FBCA62#/eglow##c8c8ca#)"),
-                        skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("##CF8232#»   &f• ##c8c8ca#Accès à la commande ##FBCA62#/fly"),
+                        skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("##CF8232#»   &f• ##c8c8ca#Accès à la commande ##FBCA62#/is fly"),
                         skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("##CF8232#»   &f• ##c8c8ca#Accès à la commande ##FBCA62#/furnace"),
                         skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("##CF8232#»   &f• ##c8c8ca#Accès à la commande ##FBCA62#/xpbottle ##c8c8ca#(##ccb294#Cooldown 15m##c8c8ca#)"),
                         skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("##CF8232#»   &f• ##c8c8ca#Accès à la commande ##FBCA62#/stonecutter"),

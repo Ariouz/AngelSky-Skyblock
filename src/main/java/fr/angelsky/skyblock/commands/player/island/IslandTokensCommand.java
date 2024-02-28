@@ -21,7 +21,7 @@ public class IslandTokensCommand implements SuperiorCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("tokens", "token");
+        return Arrays.asList("tokens", "token", "jetons");
     }
 
     @Override
