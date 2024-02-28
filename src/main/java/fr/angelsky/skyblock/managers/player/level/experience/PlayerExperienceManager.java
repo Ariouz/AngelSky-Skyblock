@@ -34,8 +34,8 @@ public class PlayerExperienceManager {
         giveExperience(player, enchantXp, 0.5f, probabilityBoost, xpBoost);
     }
 
-    public void processBreedExperience(Player player, int enchantXp, int probabilityBoost, int xpBoost){
-        giveExperience(player, enchantXp, 0.5f, probabilityBoost, xpBoost);
+    public void processBreedExperience(Player player, int breadXp, int probabilityBoost, int xpBoost){
+        giveExperience(player, breadXp, 0.5f, probabilityBoost, xpBoost);
     }
 
     private void giveExperience(Player player, int xp, float probability, int probabilityBoost, int xpBoost){

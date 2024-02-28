@@ -121,7 +121,7 @@ public class LevelsMenu {
                 .build();
         fastInv.setItem(50, blocksValues, event -> {
             event.setCancelled(true);
-            skyblockInstance.getManagerLoader().getMenuManager().getBlocksValueLevelSubMenu().openMainBlocksValueMenu(player);
+            skyblockInstance.getManagerLoader().getMenuManager().getXpValuesLevelSubMenu().openMainBlocksValueMenu(player);
             player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
         });
         fastInv.open(player);

@@ -16,11 +16,11 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 
-public class BlocksValueLevelSubMenu {
+public class XpValuesLevelSubMenu {
 
     private final SkyblockInstance skyblockInstance;
 
-    public BlocksValueLevelSubMenu(SkyblockInstance skyblockInstance){
+    public XpValuesLevelSubMenu(SkyblockInstance skyblockInstance){
         this.skyblockInstance = skyblockInstance;
     }
 
@@ -66,7 +66,7 @@ public class BlocksValueLevelSubMenu {
             //case FISHING -> openFarmsMenu(player);
             case ENCHANT -> fillEnchantsMenu(inv);
             case BLOCKS -> fillBlocksMenu(inv);
-            //case BREEDING -> fillBreedingMenu(inv);
+            case BREEDING -> fillBreedMenu(inv);
         }
 
         ItemStack backArrow = new ItemBuilder(Material.ARROW).name(ChatColor.RED + "Retour").build();
@@ -136,6 +136,18 @@ public class BlocksValueLevelSubMenu {
                     .build();
             inv.addItem(item, event -> event.setCancelled(true));
         }
+    }
+
+    public void fillBreedMenu(FastInv inv){
+        ItemStack item = new ItemBuilder(Material.BOOK)
+                .name(skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(HexColors.LIGHT_GREEN + "Reproduction"))
+                .lore(Arrays.asList(
+                        skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(ChatColor.GRAY + ""),
+                        skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("&7Gain d'XP: " + HexColors.SMOOTH_BLUE + 2),
+                        skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("&7Chance: " + HexColors.SMOOTH_GOLD + 50 + HexColors.DARK_GOLD + "%")
+                ))
+                .build();
+        inv.addItem(item, event -> event.setCancelled(true));
     }
 
 }
