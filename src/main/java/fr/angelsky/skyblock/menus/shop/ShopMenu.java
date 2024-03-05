@@ -291,7 +291,7 @@ public class ShopMenu {
             ItemBuilder itemBuilder = new ItemBuilder(Material.RED_STAINED_GLASS_PANE)
                     .name(ChatColor.translateAlternateColorCodes('&', "&c&lVendre &8x&4" + i))
                     .lore(ChatColor.translateAlternateColorCodes('&', "&7Vendre pour &4" + (shopItem.getSellPrice() * i > 1000 ? NumbersSeparator.LanguageFormatter.USA.convert((int) (shopItem.getSellPrice()*i), 3) : shopItem.getSellPrice() * i) + " &fAngelCoins " + SkyblockInstance.COIN));
-            inv.setItem(startSlot, itemBuilder.build(), event -> this.shopManager.sellItem(shopItem, i, player));
+            inv.setItem(startSlot, itemBuilder.build(), event -> this.shopManager.sellItem(shopItem, i, player, true));
             startSlot++;
         }
 
@@ -334,7 +334,7 @@ public class ShopMenu {
             ItemBuilder itemBuilder = new ItemBuilder(Material.RED_TERRACOTTA)
                     .name(ChatColor.translateAlternateColorCodes('&', "&4&lVendre &8x&4" + i + " &4&lStacks"))
                     .lore(ChatColor.translateAlternateColorCodes('&', "&7Vendre pour &4" + (shopItem.getSellPrice() * i*64 > 1000 ? NumbersSeparator.LanguageFormatter.USA.convert((int) (shopItem.getSellPrice()*i*64), 3) : shopItem.getSellPrice() * i*64) + " &fAngelCoins " + SkyblockInstance.COIN));
-            inv.setItem(startSlot, itemBuilder.build(), event -> this.shopManager.sellItem(shopItem, i*64, player));
+            inv.setItem(startSlot, itemBuilder.build(), event -> this.shopManager.sellItem(shopItem, i*64, player, true));
             startSlot++;
         }
 
@@ -371,5 +371,9 @@ public class ShopMenu {
         skyblockInstance.getSkyBlockApiInstance().getEconomy().depositPlayer(player, amount*shopItem.getSellPrice());
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', SkyblockInstance.PREFIX + "Vous avez vendu &7x"+amount+" " + (shopItem.isOraxenItem() ? item.getItemMeta().getDisplayName() : shopItem.getDisplay()) + " &fpour &6"+(amount*shopItem.getSellPrice())+ " &fAngelCoins " + SkyblockInstance.COIN));
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 15, 10);
+    }
+
+    public String getDisplay() {
+        return display;
     }
 }

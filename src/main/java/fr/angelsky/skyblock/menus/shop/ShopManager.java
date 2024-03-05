@@ -132,7 +132,7 @@ public class ShopManager {
     }
 
     @SuppressWarnings("deprecation")
-    public void sellItem(ShopItem item, int amount, Player player){
+    public void sellItem(ShopItem item, int amount, Player player, boolean removeFromInventory){
         ItemStack fItem;
 
         if (item.isOraxenItem()) fItem = ItemUpdater.updateItem(OraxenItems.getItemById(item.getOraxenItemId()).build());
@@ -143,7 +143,7 @@ public class ShopManager {
             player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 15, 10);
             return;
         }
-        new ItemManager().removeItems(player, player.getInventory(), fItem, amount);
+        if (removeFromInventory) new ItemManager().removeItems(player, player.getInventory(), fItem, amount);
         skyblockInstance.getSkyBlockApiInstance().getEconomy().depositPlayer(player, amount*item.getSellPrice());
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', SkyblockInstance.PREFIX + "Vous avez vendu &7x"+amount+" " + (item.isOraxenItem() ? fItem.getItemMeta().getDisplayName() : item.getDisplay()) + " &fpour &6"+(amount*item.getSellPrice())+ " &fAngelCoins " + SkyblockInstance.COIN));
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 15, 10);

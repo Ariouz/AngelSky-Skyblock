@@ -14,6 +14,7 @@ import fr.angelsky.skyblock.commands.player.menus.MenuCommand;
 import fr.angelsky.skyblock.commands.player.menus.NiveauxCommand;
 import fr.angelsky.skyblock.commands.player.menus.ShopCommand;
 import fr.angelsky.skyblock.commands.player.misc.EglowCommand;
+import fr.angelsky.skyblock.commands.player.misc.SellCommand;
 import fr.angelsky.skyblock.commands.player.misc.TrashCommand;
 import fr.angelsky.skyblock.commands.utils.misc.DailyRewardCommand;
 import fr.angelsky.skyblock.commands.utils.social.BoutiqueCommand;
@@ -50,6 +51,7 @@ public class CommandManager {
         Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("eglow")).setExecutor(new EglowCommand(skyblockInstance));
         Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("poubelle")).setExecutor(new TrashCommand());
         Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("daily")).setExecutor(new DailyRewardCommand(skyblockInstance));
+        Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("sell")).setExecutor(new SellCommand(skyblockInstance));
 
         // ADMIN
 

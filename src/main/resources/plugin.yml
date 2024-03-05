@@ -37,6 +37,8 @@ commands:
       - lvl
   shop:
     description: Menu du shop
+  sell:
+    description: Vendre des items
   upgradetokens:
     description: Commande UpgradeTokens
   cratekey:
