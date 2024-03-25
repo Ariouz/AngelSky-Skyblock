@@ -2,6 +2,7 @@ package fr.angelsky.skyblock.menus.island.levels;
 
 import fr.angelsky.angelskyapi.api.utils.math.NumbersSeparator;
 import fr.angelsky.skyblock.SkyblockInstance;
+import fr.angelsky.skyblock.managers.player.level.reward.LevelReward;
 import fr.angelsky.skyblockapi.accounts.TempPlayer;
 import fr.angelsky.skyblockapi.managers.level.LevelColor;
 import fr.angelsky.skyblockapi.managers.level.LevelRankManager;
@@ -34,6 +35,7 @@ public class LevelsMenu {
         this.skyblockInstance = skyblockInstance;
     }
 
+    @SuppressWarnings("deprecation")
     public void menu(Player player, TempPlayer tempPlayer, int page){
         FastInv fastInv = new FastInv(9*6, "» Niveaux");
         List<ItemStack> items = new ArrayList<>();
@@ -86,23 +88,31 @@ public class LevelsMenu {
                 else if(hasPassed) loreMessage = ChatColor.GREEN + "Niveau terminé";
                 else loreMessage = ChatColor.RED + "Niveau non atteint";
 
+                String levelRewardLore = "";
+                LevelReward levelReward = skyblockInstance.getManagerLoader().getLevelManager().getLevelRewardManager().getReward(i, j);
+                if (levelReward != null)
+                    levelRewardLore = skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(levelReward.getDisplay());
+
                 String levelDisplay = levelRank.getLevelRank(i).getDisplay() + "[" + levelColor.getColorForLevel(j) + j +
                         levelRank.getLevelRank(i).getDisplay() + "]";
 
                 ItemBuilder builder = new ItemBuilder(j % 50 == 0 && j != 0? Material.GOLD_NUGGET : (hasPassed ? Material.LIME_DYE : Material.GRAY_DYE))
                         .name(ChatColor.translateAlternateColorCodes('&', levelDisplay))
-                        .lore(ChatColor.GRAY + "En atteignant ce niveau vous obtenez:",
-                                ChatColor.GRAY + String.valueOf(NumbersSeparator.LanguageFormatter.USA.convert(moneyLevelReward, 3)) + " " + SkyblockInstance.COIN,
+                        .lore(ChatColor.WHITE + "Récompense"+ (levelReward == null ? "" : "s") +":",
+                                "",
+                                ChatColor.WHITE + "  • " + ChatColor.GRAY +NumbersSeparator.LanguageFormatter.USA.convert(moneyLevelReward, 3) + ChatColor.WHITE + " AngelCoins " + SkyblockInstance.COIN,
+                                (levelReward != null ? ChatColor.WHITE + "  • " + levelRewardLore : ""),
                                 "",
                                 loreMessage);
                 if(current)
                     builder.enchant(Enchantment.DIG_SPEED)
                             .flags(ItemFlag.HIDE_ENCHANTS);
 
+                if (levelReward != null)
+                    builder.type(Material.BLUE_DYE);
                 items.add(builder.build());
             }
         }
-
 
         for(int i = 0; i < 5*9; i++){
             if(items.size() > i){
@@ -127,6 +137,7 @@ public class LevelsMenu {
         fastInv.open(player);
     }
 
+    @SuppressWarnings("deprecation")
     public void pageArrows(Player player, TempPlayer tempPlayer, FastInv fastInv, int currentPage, int maxPages) {
         ItemStack current = new ItemBuilder(Material.SUNFLOWER).name(ChatColor.GOLD + "Page " + ChatColor.YELLOW + String.valueOf(currentPage)).build();
         ItemStack previous = new ItemBuilder(Material.ARROW).name(ChatColor.GOLD + "Page " + ChatColor.YELLOW + String.valueOf(currentPage - 1) + ChatColor.DARK_GRAY + " (-1)").build();

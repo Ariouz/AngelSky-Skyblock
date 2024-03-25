@@ -1,0 +1,10 @@
+# Exemple: rank id: level id: type, meterial (or null) or oraxen
+#0:
+#  0:
+#    type: ITEM COMMAND PERMISSION
+#    material: (or null if type != item)
+#    oraxen_item: if material == null
+#    amount: amount of item
+#    data: command / permission if type ==
+#    message: message to send to player (or null to send nothing)
+#    display: display text shown in /levels

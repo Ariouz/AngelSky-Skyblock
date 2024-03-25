@@ -3,6 +3,7 @@ package fr.angelsky.skyblock.listeners.player.level;
 import fr.angelsky.angelskyapi.api.utils.HexColors;
 import fr.angelsky.angelskyapi.api.utils.math.NumbersSeparator;
 import fr.angelsky.skyblock.SkyblockInstance;
+import fr.angelsky.skyblock.managers.player.level.reward.LevelReward;
 import fr.angelsky.skyblockapi.accounts.TempPlayer;
 import fr.angelsky.skyblockapi.events.player.PlayerNextLevelEvent;
 import org.bukkit.ChatColor;
@@ -26,13 +27,15 @@ public class PlayerPassLevelListener implements Listener {
         skyblockInstance.getManagerLoader().getActionBarManager().sendActionBar(tempPlayer.getPlayer(), HexColors.LIGHT_GREEN + "Niveau Supérieur !", 5);
         tempPlayer.getPlayer().playSound(tempPlayer.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 30, 0);
 
-        // MONEY GIVE CALCUL
-        // ((level^1.2) * rank) + 0.7 * (level*500)
         int level = event.getNewLevel();
         int rank = tempPlayer.getPlayerLevel().getLevelRank();
         int money = (int) Math.round((Math.pow(level, 1.2) * rank) + 0.7 * (level*500));
         skyblockInstance.getSkyBlockApiInstance().getEconomy().depositPlayer(tempPlayer.getPlayer(), money);
         tempPlayer.getPlayer().sendMessage(SkyblockInstance.PREFIX + "Vous avez reçu " + ChatColor.YELLOW + NumbersSeparator.LanguageFormatter.USA.convert(money, 3) +" " + SkyblockInstance.COIN);
+
+        LevelReward levelReward = skyblockInstance.getManagerLoader().getLevelManager().getLevelRewardManager().getReward(rank, level);
+        if (levelReward != null)
+            levelReward.give(tempPlayer.getPlayer(), skyblockInstance);
     }
 
 }
