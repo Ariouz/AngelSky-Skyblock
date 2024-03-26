@@ -13,6 +13,7 @@ public class LevelReward {
 
     private final LevelRewardType type;
     private final Material material;
+    private final Material icon;
     private final String oraxenId;
     private final int itemAmount;
     private final String data;
@@ -21,7 +22,8 @@ public class LevelReward {
     private final int rank;
     private final int level;
 
-    public LevelReward(int rank, int level, LevelRewardType type, Material material, String oraxenId, int itemAmount, String data, String message, String display)
+    public LevelReward(int rank, int level, LevelRewardType type, Material material,
+                       String oraxenId, int itemAmount, String data, String message, String display, Material icon)
     {
         this.rank = rank;
         this.level = level;
@@ -32,6 +34,7 @@ public class LevelReward {
         this.data = data;
         this.message = message;
         this.display = display;
+        this.icon = icon;
     }
 
     public void give(Player player, SkyblockInstance skyblockInstance)
@@ -58,6 +61,10 @@ public class LevelReward {
 
         if (message != null)
             player.sendMessage(SkyblockInstance.PREFIX + skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage(message));
+    }
+
+    public Material getIcon() {
+        return icon;
     }
 
     public String getDisplay() {

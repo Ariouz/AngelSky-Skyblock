@@ -89,6 +89,11 @@ public class ShopManager {
                 if (!isOraxen) item = Material.getMaterial(Objects.requireNonNull(section.getString(categoryId + "." + itemId+ ".item_id")).toUpperCase());
                 else oraxenId = section.getString(categoryId+"."+itemId+".oraxen_id");
 
+                if (canBeSold)
+                {
+                    lore.add(ChatColor.RED + "");
+                    lore.add(ChatColor.GRAY + "Shift-clic pour tout vendre");
+                }
                 ShopCategory cat = this.getCategory(categoryId);
                 this.shopItems.add(new ShopItem(id, cat, itemId, display, lore, item, buyPrice, sellPrice, canBeBought, canBeSold, isOraxen, oraxenId));
             }

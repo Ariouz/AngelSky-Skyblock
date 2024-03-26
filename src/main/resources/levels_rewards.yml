@@ -8,3 +8,4 @@
 #    data: command / permission if type ==
 #    message: message to send to player (or null to send nothing)
 #    display: display text shown in /levels
+#    icon: displayed icon in /levels

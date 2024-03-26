@@ -40,8 +40,9 @@ public class LevelRewardManager {
                         levelSection.getInt("amount"),
                         levelSection.getString("data"),
                         levelSection.getString("message"),
-                        levelSection.getString("display")
-                );
+                        levelSection.getString("display"),
+                        Material.getMaterial(Objects.requireNonNull(levelSection.getString("icon")))
+                        );
                 this.levelRewards.add(levelReward);
             }
         }

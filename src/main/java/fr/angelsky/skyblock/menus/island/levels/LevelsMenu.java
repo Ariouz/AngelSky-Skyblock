@@ -96,7 +96,7 @@ public class LevelsMenu {
                 String levelDisplay = levelRank.getLevelRank(i).getDisplay() + "[" + levelColor.getColorForLevel(j) + j +
                         levelRank.getLevelRank(i).getDisplay() + "]";
 
-                ItemBuilder builder = new ItemBuilder(j % 50 == 0 && j != 0? Material.GOLD_NUGGET : (hasPassed ? Material.LIME_DYE : Material.GRAY_DYE))
+                ItemBuilder builder = new ItemBuilder(j % 50 == 0 && j != 0? Material.GOLD_NUGGET : (hasPassed ? Material.LIME_STAINED_GLASS_PANE : Material.BLACK_STAINED_GLASS_PANE))
                         .name(ChatColor.translateAlternateColorCodes('&', levelDisplay))
                         .lore(ChatColor.WHITE + "Récompense"+ (levelReward == null ? "" : "s") +":",
                                 "",
@@ -106,10 +106,11 @@ public class LevelsMenu {
                                 loreMessage);
                 if(current)
                     builder.enchant(Enchantment.DIG_SPEED)
-                            .flags(ItemFlag.HIDE_ENCHANTS);
+                            .flags(ItemFlag.HIDE_ENCHANTS)
+                            .type(Material.YELLOW_STAINED_GLASS_PANE);
 
                 if (levelReward != null)
-                    builder.type(Material.BLUE_DYE);
+                    builder.type(levelReward.getIcon());
                 items.add(builder.build());
             }
         }
