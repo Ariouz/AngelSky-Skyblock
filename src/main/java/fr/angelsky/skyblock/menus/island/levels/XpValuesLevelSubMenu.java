@@ -46,7 +46,7 @@ public class XpValuesLevelSubMenu {
         ItemStack backArrow = new ItemBuilder(Material.ARROW).name(ChatColor.RED + "Retour").build();
         inv.setItem(inv.getInventory().getSize() - 1, backArrow, event -> {
             event.setCancelled(true);
-            skyblockInstance.getManagerLoader().getMenuManager().getMainMenu().menu(player, skyblockInstance.getTempAccounts().get(player.getName()));
+            skyblockInstance.getManagerLoader().getMenuManager().getLevelsMenu().menu(player, skyblockInstance.getTempAccounts().get(player.getName()), 0);
             player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
         });
 
