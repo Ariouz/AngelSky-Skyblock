@@ -26,7 +26,7 @@ public class NiveauxCommand implements CommandExecutor {
 
         Player player = (Player)sender;
         TempPlayer tempPlayer = skyblockInstance.getTempAccounts().get(player.getName());
-        skyblockInstance.getManagerLoader().getMenuManager().getLevelsMenu().menu(player, tempPlayer, 0);
+        skyblockInstance.getManagerLoader().getMenuManager().getLevelsMenu().menu(player, tempPlayer, -1);
         return false;
     }
 }

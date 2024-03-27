@@ -6,6 +6,7 @@ import fr.angelsky.skyblock.managers.player.level.reward.LevelReward;
 import fr.angelsky.skyblockapi.accounts.TempPlayer;
 import fr.angelsky.skyblockapi.managers.level.LevelColor;
 import fr.angelsky.skyblockapi.managers.level.LevelRankManager;
+import fr.angelsky.skyblockapi.managers.level.PlayerLevel;
 import fr.mrmicky.fastinv.FastInv;
 import fr.mrmicky.fastinv.ItemBuilder;
 import org.bukkit.ChatColor;
@@ -40,9 +41,14 @@ public class LevelsMenu {
         FastInv fastInv = new FastInv(9*6, "» Niveaux");
         List<ItemStack> items = new ArrayList<>();
 
-
         LevelRankManager levelRank = skyblockInstance.getManagerLoader().getLevelManager().getLevelRankManager();
         LevelColor levelColor = skyblockInstance.getManagerLoader().getLevelManager().getLevelColor();
+        PlayerLevel playerLevel = tempPlayer.getPlayerLevel();
+
+        if (page == -1) {
+            int lvlIndex = (playerLevel.getLevelRank() * maxLevel) + playerLevel.getLevel();
+            page = lvlIndex / (itemsPerPage + playerLevel.getLevelRank());
+        }
 
         int passedRanks = (page*itemsPerPage) / maxLevel; //  == StartIndex / maxLevel (150)
         int startIndex = (page * itemsPerPage) - passedRanks; // REMOVE RANK UP ITEMS INDEXES

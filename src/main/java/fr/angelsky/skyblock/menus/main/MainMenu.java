@@ -176,7 +176,7 @@ public class MainMenu {
         });
 
         fastInv.setItem(23, levels, event -> {
-            skyblockInstance.getManagerLoader().getMenuManager().getLevelsMenu().menu(player, tempPlayer, 0);
+            skyblockInstance.getManagerLoader().getMenuManager().getLevelsMenu().menu(player, tempPlayer, -1);
             player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
         });
 
