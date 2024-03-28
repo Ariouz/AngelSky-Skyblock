@@ -52,10 +52,13 @@ public class LevelReward {
                 if (material == null){
                     item = OraxenItems.getItemById(oraxenId).build();
                 }
-                else item = new ItemStack(material, itemAmount);
-                List<ItemStack> toDrop = player.getInventory().addItem(item).values().stream().toList();
-                if (!toDrop.isEmpty())
-                    toDrop.forEach(items -> player.getWorld().dropItem(player.getLocation(), items));
+                else item = new ItemStack(material);
+                for (int i = 0; i < itemAmount; i++)
+                {
+                    List<ItemStack> toDrop = player.getInventory().addItem(item).values().stream().toList();
+                    if (!toDrop.isEmpty())
+                        toDrop.forEach(items -> player.getWorld().dropItem(player.getLocation(), items));
+                }
             }
         }
 
