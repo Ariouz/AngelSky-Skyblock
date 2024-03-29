@@ -3,6 +3,7 @@ package fr.angelsky.skyblock.managers;
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI;
 import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblock.commands.admin.island.UpgradeTokenAdminCommand;
+import fr.angelsky.skyblock.commands.admin.items.skytools.SkyToolsCommand;
 import fr.angelsky.skyblock.commands.admin.player.level.PlayerLevelCommand;
 import fr.angelsky.skyblock.commands.admin.utils.CrateKeyCommand;
 import fr.angelsky.skyblock.commands.admin.utils.VotePartyCommand;
@@ -59,6 +60,7 @@ public class CommandManager {
         Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("playerlevel")).setExecutor(new PlayerLevelCommand(skyblockInstance));
         Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("upgradetokens")).setExecutor(new UpgradeTokenAdminCommand(skyblockInstance));
         Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("cratekey")).setExecutor(new CrateKeyCommand(skyblockInstance));
+        Objects.requireNonNull(skyblockInstance.getSkyblock().getCommand("skytools")).setExecutor(new SkyToolsCommand(skyblockInstance));
 
         // SSB COMMANDS
         SuperiorSkyblockAPI.registerCommand(new CreateIslandCommand(skyblockInstance));

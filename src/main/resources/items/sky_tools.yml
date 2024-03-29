@@ -1,0 +1,7 @@
+test_pickaxe:
+  display: "<red>Hello World"
+  material: "oraxen:angelium_pickaxe"
+  lore:
+    - "<red>"
+    - "<white><bold>Item SkyTool"
+    - "<red>"

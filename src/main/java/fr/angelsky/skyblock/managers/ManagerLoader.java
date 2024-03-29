@@ -6,6 +6,7 @@ import fr.angelsky.skyblock.kits.IslandClassKitGiver;
 import fr.angelsky.skyblock.managers.display.actionbar.ActionBarManager;
 import fr.angelsky.skyblock.managers.display.scoreboard.ScoreboardManager;
 import fr.angelsky.skyblock.managers.display.tablist.TabListDisplayer;
+import fr.angelsky.skyblock.managers.items.skytools.SkyToolsManager;
 import fr.angelsky.skyblock.managers.player.level.LevelManager;
 import fr.angelsky.skyblock.managers.player.level.experience.PlayerExperienceManager;
 import fr.angelsky.skyblock.managers.player.reward.daily.DailyRewardManager;
@@ -44,6 +45,7 @@ public class ManagerLoader {
     private TabListDisplayer tabListDisplayer;
     private LevelTopManager levelTopManager;
     private PlayerExperienceManager playerExperienceManager;
+    private SkyToolsManager skyToolsManager;
 
     public ManagerLoader(SkyblockInstance skyblockInstance){
         this.skyblockInstance = skyblockInstance;
@@ -65,13 +67,13 @@ public class ManagerLoader {
         this.tabListDisplayer = new TabListDisplayer(skyblockInstance);
         this.levelTopManager = new LevelTopManager(skyblockInstance);
         this.playerExperienceManager = new PlayerExperienceManager(skyblockInstance);
+        this.skyToolsManager = new SkyToolsManager(skyblockInstance);
 
         if (skyblockInstance.getSkyblock().getServer().getPluginManager().getPlugin("AngelSkyEconomy") != null){
             this.skyblockInstance.getSkyblock().getLogger().log(Level.INFO, "Instance AngelSkyEconomy recuperee");
             this.angelSkyEconomy = (AngelSkyEconomy) skyblockInstance.getSkyblock().getServer().getPluginManager().getPlugin("AngelSkyEconomy");
         }
     }
-
     public void init(){
         this.votePartyManager.init();
         this.regionManager.init();
@@ -79,6 +81,7 @@ public class ManagerLoader {
         this.crateManager.loadCrates();
         this.tabListDisplayer.run();
         this.levelTopManager.init();
+        this.skyToolsManager.loadTools();
 
         new CommandManager(skyblockInstance);
         new EventManager(skyblockInstance);
@@ -161,5 +164,9 @@ public class ManagerLoader {
 
     public PlayerExperienceManager getPlayerExperienceManager() {
         return playerExperienceManager;
+    }
+
+    public SkyToolsManager getSkyToolsManager() {
+        return skyToolsManager;
     }
 }

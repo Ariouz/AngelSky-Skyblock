@@ -58,4 +58,6 @@ commands:
     description: Ouvre le menu de la boutique ig
     aliases:
       - boutiqueig
+  skytools:
+    description: Commande admin
 
