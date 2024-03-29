@@ -41,8 +41,8 @@ public class CrateManager {
 
     public CrateManager(SkyblockInstance skyblockInstance) {
         this.skyblockInstance = skyblockInstance;
-        this.crateConfig = new ConfigUtils(skyblockInstance.getSkyblock(), "crates.yml");
-        this.crateLootsConfig = new ConfigUtils(skyblockInstance.getSkyblock(), "crate_loots.yml");
+        this.crateConfig = new ConfigUtils(skyblockInstance.getSkyblock(), "crates/crates.yml");
+        this.crateLootsConfig = new ConfigUtils(skyblockInstance.getSkyblock(), "crates/crate_loots.yml");
     }
 
     public void loadCrates() {

@@ -18,7 +18,7 @@ public class LevelRewardManager {
     public LevelRewardManager(SkyblockInstance skyblockInstance)
     {
         this.skyblockInstance = skyblockInstance;
-        this.rewardConfig = new ConfigUtils(skyblockInstance.getSkyblock(), "levels_rewards.yml");
+        this.rewardConfig = new ConfigUtils(skyblockInstance.getSkyblock(), "levels/levels_rewards.yml");
     }
 
     public void loadRewards()

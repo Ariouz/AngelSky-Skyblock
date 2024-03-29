@@ -21,12 +21,12 @@ public class LevelManager {
 
     public void init(){
         this.levelRankManager = new LevelRankManager();
-        this.levelColor = new LevelColor(new ConfigUtils(skyblockInstance.getSkyblock(), "levels_colors.yml"));
+        this.levelColor = new LevelColor(new ConfigUtils(skyblockInstance.getSkyblock(), "levels/levels_colors.yml"));
         this.levelRewardManager = new LevelRewardManager(skyblockInstance);
     }
 
     public void load(){
-        this.levelRankManager.loadRanks(new ConfigUtils(skyblockInstance.getSkyblock(), "level_ranks.yml"));
+        this.levelRankManager.loadRanks(new ConfigUtils(skyblockInstance.getSkyblock(), "levels/level_ranks.yml"));
         this.levelColor.loadColors();
         this.levelRewardManager.loadRewards();
     }
