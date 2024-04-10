@@ -1,19 +1,20 @@
 package fr.angelsky.skyblock.listeners.player.level;
 
 import fr.angelsky.skyblock.SkyblockInstance;
-import fr.angelsky.skyblock.managers.player.level.experience.types.BlockPlayerExperience;
+import fr.angelsky.skyblock.listeners.player.items.skytools.SkyToolBlockBreakEvent;
+import fr.angelsky.skyblock.managers.items.skytools.SkyToolUpgrade;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.Ageable;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public class PlayerXpEarningListener implements Listener {
 
@@ -34,26 +35,21 @@ public class PlayerXpEarningListener implements Listener {
     }
 
     @EventHandler
-    public void playerBreakBlockExperienceEvent(BlockBreakEvent event){
+    public void playerBreakBlockExperienceEvent(SkyToolBlockBreakEvent event){
         if (event.isCancelled()) return;
         Block block = event.getBlock();
-        BlockData blockData = block.getBlockData();
-        BlockPlayerExperience blockXp = BlockPlayerExperience.getByType(block.getType());
-        if (blockXp == null) {
-            removeMetadata(block);
-            return;
-        }
+        Player player = event.getPlayer();
+        ItemStack hand = player.getInventory().getItemInMainHand();
 
-        if(blockData instanceof Ageable age && blockXp.isCheckAge()){
-            if (age.getAge() != age.getMaximumAge()) {
-                removeMetadata(block);
-                return;
-            }
-        } else if (block.hasMetadata("angelsky_player_placed")) {
-            removeMetadata(block);
-            return;
+        if (event.isSkyTool())
+        {
+            List<SkyToolUpgrade> upgrades = skyblockInstance.getManagerLoader().getSkyToolsManager().getUpgrades(hand);
+            skyblockInstance.getManagerLoader().getSkyToolsManager().applyUpgrades(upgrades, player, block, hand, event);
+            event.setCancelled(true);
+            event.setDropItems(false);
         }
-        skyblockInstance.getManagerLoader().getPlayerExperienceManager().processBlockExperience(event.getPlayer(), blockXp, 0 , 0);
+        else
+            skyblockInstance.getManagerLoader().getPlayerExperienceManager().processBlockExperience(player, block, 0 , 0);
     }
 
     @EventHandler
@@ -69,8 +65,6 @@ public class PlayerXpEarningListener implements Listener {
         skyblockInstance.getManagerLoader().getPlayerExperienceManager().processBreedExperience((Player) event.getBreeder(), 2, 0 , 0);
     }
 
-    public void removeMetadata(Block block){
-        if (block.hasMetadata("angelsky_player_placed")) block.removeMetadata("angelsky_player_placed", skyblockInstance.getSkyblock());
-    }
+
 
 }

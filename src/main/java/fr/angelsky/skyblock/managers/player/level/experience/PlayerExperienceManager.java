@@ -7,6 +7,9 @@ import fr.angelsky.skyblock.managers.player.level.experience.types.MobPlayerExpe
 import fr.angelsky.skyblockapi.accounts.TempPlayer;
 import fr.angelsky.skyblockapi.managers.level.PlayerLevel;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -26,8 +29,24 @@ public class PlayerExperienceManager {
         giveExperience(player, mob.getXp(), mob.getProbability(), probabilityBoost, xpBoost);
     }
 
-    public void processBlockExperience(Player player, BlockPlayerExperience block, int probabilityBoost, int xpBoost){
-        giveExperience(player, block.getXp(), block.getProbability(), probabilityBoost, xpBoost);
+    public void processBlockExperience(Player player, Block block, int probabilityBoost, int xpBoost){
+        BlockData blockData = block.getBlockData();
+        BlockPlayerExperience blockXp = BlockPlayerExperience.getByType(block.getType());
+        if (blockXp == null) {
+            removeMetadata(block);
+            return;
+        }
+        if(blockData instanceof Ageable age && blockXp.isCheckAge()){
+            if (age.getAge() != age.getMaximumAge()) {
+                removeMetadata(block);
+                return;
+            }
+        }
+        if (block.hasMetadata("angelsky_player_placed")) {
+            removeMetadata(block);
+            return;
+        }
+        giveExperience(player, blockXp.getXp(), blockXp.getProbability(), probabilityBoost, xpBoost);
     }
 
     public void processEnchantExperience(Player player, int enchantXp, int probabilityBoost, int xpBoost){
@@ -58,6 +77,10 @@ public class PlayerExperienceManager {
         //System.out.println("Proba : " + totalProbability + " value: "+ randomValue);
         if (totalProbability > randomValue) return (int) (xp / (1 + (xpBoost / 100f)));
         return 0;
+    }
+
+    public void removeMetadata(Block block){
+        if (block.hasMetadata("angelsky_player_placed")) block.removeMetadata("angelsky_player_placed", skyblockInstance.getSkyblock());
     }
 
 }

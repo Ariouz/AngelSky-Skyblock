@@ -5,3 +5,5 @@ test_pickaxe:
     - "<red>"
     - "<white><bold>Item SkyTool"
     - "<red>"
+  upgrades:
+    radius: 1

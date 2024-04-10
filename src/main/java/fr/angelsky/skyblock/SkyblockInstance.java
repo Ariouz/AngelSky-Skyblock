@@ -3,6 +3,7 @@ package fr.angelsky.skyblock;
 import fr.angelsky.angelskyapi.AngelskyApi;
 import fr.angelsky.angelskyapi.api.AngelSkyApiInstance;
 import fr.angelsky.skyblock.managers.ManagerLoader;
+import fr.angelsky.skyblock.managers.utils.Keys;
 import fr.angelsky.skyblockapi.SkyblockApi;
 import fr.angelsky.skyblockapi.accounts.TempPlayer;
 import fr.angelsky.skyblockapi.api.SkyBlockApiInstance;
@@ -26,6 +27,7 @@ public class SkyblockInstance {
     private final HashMap<String, TempPlayer> tempAccounts = new HashMap<>();
 
     private ManagerLoader managerLoader;
+    private Keys keys;
 
     public SkyblockInstance(Skyblock skyblockk){
         this.skyblock = skyblockk;
@@ -55,6 +57,7 @@ public class SkyblockInstance {
         FastInvManager.register(this.skyblock);
 
         this.managerLoader = new ManagerLoader(this);
+        this.keys = new Keys(this);
         this.managerLoader.init();
 
         for(Player players : Bukkit.getOnlinePlayers()){
@@ -142,5 +145,9 @@ public class SkyblockInstance {
         }
 
         return sb.toString();
+    }
+
+    public Keys getKeys() {
+        return keys;
     }
 }

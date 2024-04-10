@@ -4,6 +4,7 @@ import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblock.listeners.island.IslandDisbandListener;
 import fr.angelsky.skyblock.listeners.player.chat.ChatListener;
 import fr.angelsky.skyblock.listeners.player.damage.PlayerIslandDeathListener;
+import fr.angelsky.skyblock.listeners.player.items.skytools.SkyToolBlockBreak;
 import fr.angelsky.skyblock.listeners.player.level.PlayerPassLevelListener;
 import fr.angelsky.skyblock.listeners.player.level.PlayerPassRankListener;
 import fr.angelsky.skyblock.listeners.player.level.PlayerXpEarningListener;
@@ -38,6 +39,7 @@ public class EventManager {
         Bukkit.getPluginManager().registerEvents(new SpawnProtectionEventHandler(skyblockInstance), skyblockInstance.getSkyblock());
         Bukkit.getPluginManager().registerEvents(new BlockPlaceListener(skyblockInstance), skyblockInstance.getSkyblock());
 
+        Bukkit.getPluginManager().registerEvents(new SkyToolBlockBreak(skyblockInstance), skyblockInstance.getSkyblock());
         Bukkit.getPluginManager().registerEvents(new PlayerXpEarningListener(skyblockInstance), skyblockInstance.getSkyblock());
     }
 

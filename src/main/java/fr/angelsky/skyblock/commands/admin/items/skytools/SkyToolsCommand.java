@@ -38,7 +38,7 @@ public class SkyToolsCommand implements CommandExecutor {
         Inventory inv = Bukkit.createInventory(null, 6*9);
         for (SkyTool skyTool : skyblockInstance.getManagerLoader().getSkyToolsManager().getTools())
         {
-            inv.addItem(skyTool.getItem());
+            inv.addItem(skyTool.getItem(skyblockInstance));
         }
         player.openInventory(inv);
         return true;

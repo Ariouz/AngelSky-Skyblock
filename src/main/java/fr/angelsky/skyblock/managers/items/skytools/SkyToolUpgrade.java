@@ -1,27 +1,21 @@
 package fr.angelsky.skyblock.managers.items.skytools;
 
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.inventory.ItemStack;
-
-import java.awt.*;
-import java.util.List;
-
 public abstract class SkyToolUpgrade {
 
     private final String id;
-    private final Component display;
+    private final String display;
 
     private final SkyToolUpgradeType type;
+    private final int value;
 
-    public SkyToolUpgrade(String id, Component display, SkyToolUpgradeType type)
+    public SkyToolUpgrade(String id, String display, SkyToolUpgradeType type, int value)
     {
         this.id = id;
         this.display = display;
         this.type = type;
+        this.value = value;
     }
 
-    public abstract List<ItemStack> apply(SkyTool tool, Block block, BlockFace blockFace);
     public void apply() {}
 
     public SkyToolUpgradeType getType() {
@@ -32,8 +26,11 @@ public abstract class SkyToolUpgrade {
         return id;
     }
 
-    public Component getDisplay() {
+    public String getDisplay() {
         return display;
     }
 
+    public int getValue() {
+        return value;
+    }
 }
