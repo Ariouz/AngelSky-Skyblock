@@ -40,12 +40,10 @@ public class SkyToolRadiusUpgrade extends SkyToolUpgrade {
         blocks.add(block);
         if (radius == 1) {
             skyblockInstance.getManagerLoader().getPlayerExperienceManager().processBlockExperience(player, block, 0, 0);
-            /*if (!checkCropFullyGrown(block)) {
+            if (!checkCropFullyGrown(block)) {
                 drops.clear();
-                block.getDrops().clear();
-            }*/
-            //drops.clear();
-            block.setType(Material.AIR);
+            }
+            else block.setType(Material.AIR);
             return new SkyToolUpgradeReturnValues(drops, blocks);
         }
 
@@ -61,7 +59,7 @@ public class SkyToolRadiusUpgrade extends SkyToolUpgrade {
                 }
                 Block rBlock = block.getWorld().getBlockAt(block.getLocation().add(vec));
                 if (rBlock.getType() != block.getType()) continue;
-                //if (!checkCropFullyGrown(rBlock)) continue;
+                if (!checkCropFullyGrown(rBlock)) continue;
                 skyblockInstance.getManagerLoader().getPlayerExperienceManager().processBlockExperience(player, rBlock, 0, 0);
                 drops.addAll(rBlock.getDrops());
                 blocks.add(rBlock);
