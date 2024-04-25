@@ -7,6 +7,7 @@ public enum SkyToolUpgradeType {
     RADIUS("skytool_radius_upgrade", "Rayon", "radius"),
     HARVEST("skytool_harvest_upgrade", "Replantation", "harvest"),
     MAGNET("skytool_magnet_upgrade", "Magnet", "magnet"),
+    AUTOSELL("skytool_autosell_upgrade", "Vente automatique", "autosell"),
 
     ;
 

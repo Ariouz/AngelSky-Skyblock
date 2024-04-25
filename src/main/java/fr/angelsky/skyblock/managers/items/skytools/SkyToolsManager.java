@@ -3,10 +3,7 @@ package fr.angelsky.skyblock.managers.items.skytools;
 import fr.angelsky.angelskyapi.api.utils.file.ConfigUtils;
 import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblock.listeners.player.items.skytools.SkyToolBlockBreakEvent;
-import fr.angelsky.skyblock.managers.items.skytools.upgrades.SkyToolHarvestUpgrade;
-import fr.angelsky.skyblock.managers.items.skytools.upgrades.SkyToolMagnetUpgrade;
-import fr.angelsky.skyblock.managers.items.skytools.upgrades.SkyToolRadiusUpgrade;
-import fr.angelsky.skyblock.managers.items.skytools.upgrades.SkyToolUpgradeReturnValues;
+import fr.angelsky.skyblock.managers.items.skytools.upgrades.*;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -92,6 +89,9 @@ public class SkyToolsManager {
             case MAGNET -> {
                 return new SkyToolMagnetUpgrade(key.getKey(), type.getDisplay(), type);
             }
+            case AUTOSELL -> {
+                return new SkyToolAutoSellUpgrade(key.getKey(), type.getDisplay(), type);
+            }
         }
         return null;
     }
@@ -107,6 +107,9 @@ public class SkyToolsManager {
             }
             case MAGNET -> {
                 return new SkyToolMagnetUpgrade(skyblockInstance.getKeys().SKYTOOL_MAGNET_UPGRADE.getKey(), type.getDisplay(), type);
+            }
+            case AUTOSELL -> {
+                return new SkyToolAutoSellUpgrade(skyblockInstance.getKeys().SKYTOOL_AUTOSELL_UPGRADE.getKey(), type.getDisplay(), type);
             }
         }
         return null;
@@ -127,6 +130,8 @@ public class SkyToolsManager {
                 dataContainer.set(skyblockInstance.getKeys().SKYTOOL_HARVEST_UPGRADE, PersistentDataType.INTEGER, value);
             case MAGNET ->
                 dataContainer.set(skyblockInstance.getKeys().SKYTOOL_MAGNET_UPGRADE, PersistentDataType.INTEGER, value);
+            case AUTOSELL ->
+                dataContainer.set(skyblockInstance.getKeys().SKYTOOL_AUTOSELL_UPGRADE, PersistentDataType.INTEGER, value);
         }
     }
 
@@ -172,6 +177,12 @@ public class SkyToolsManager {
         }
 
         if (ret == null) ret = new SkyToolUpgradeReturnValues(new ArrayList<>(block.getDrops()), List.of(block));
+        if (hasUpgrade(item, SkyToolUpgradeType.AUTOSELL))
+        {
+            SkyToolAutoSellUpgrade skyToolAutoSellUpgrade = (SkyToolAutoSellUpgrade) getItemUpgrade(item, SkyToolUpgradeType.AUTOSELL);
+            ret.setDrops(skyToolAutoSellUpgrade.apply(ret.getDrops(), player, skyblockInstance));
+        }
+
         if (hasUpgrade(item, SkyToolUpgradeType.MAGNET))
         {
             for (ItemStack drop : ret.getDrops()) {
