@@ -19,10 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class SkyToolsManager {
 
@@ -98,6 +95,9 @@ public class SkyToolsManager {
             case AUTOSELL -> {
                 return new SkyToolAutoSellUpgrade(key.getKey(), type.getDisplay(), type);
             }
+            case DURABILITY -> {
+                return new SkyToolDurabilityUpgrade(key.getKey(), type.getDisplay(), type);
+            }
         }
         return null;
     }
@@ -116,6 +116,9 @@ public class SkyToolsManager {
             }
             case AUTOSELL -> {
                 return new SkyToolAutoSellUpgrade(skyblockInstance.getKeys().SKYTOOL_AUTOSELL_UPGRADE.getKey(), type.getDisplay(), type);
+            }
+            case DURABILITY -> {
+                return new SkyToolDurabilityUpgrade(skyblockInstance.getKeys().SKYTOOL_DURABILITY_UPGRADE.getKey(), type.getDisplay(), type);
             }
         }
         return null;
@@ -138,6 +141,8 @@ public class SkyToolsManager {
                 dataContainer.set(skyblockInstance.getKeys().SKYTOOL_MAGNET_UPGRADE, PersistentDataType.INTEGER, value);
             case AUTOSELL ->
                 dataContainer.set(skyblockInstance.getKeys().SKYTOOL_AUTOSELL_UPGRADE, PersistentDataType.INTEGER, value);
+            case DURABILITY ->
+                dataContainer.set(skyblockInstance.getKeys().SKYTOOL_DURABILITY_UPGRADE, PersistentDataType.INTEGER, value);
         }
     }
 
@@ -167,11 +172,7 @@ public class SkyToolsManager {
             return ;
         }
 
-        ItemMeta meta = item.getItemMeta();
-        skyToolDurabilityManager.removeDurability(meta, 1);
-        item.setItemMeta(meta);
-        player.getInventory().setItemInMainHand(skyToolDurabilityManager.updateDurabilityLore(item));
-
+        applyDurability(item, player);
         if (!hasUpgrade(item, SkyToolUpgradeType.RADIUS))
         {
             skyblockInstance.getManagerLoader().getPlayerExperienceManager().processBlockExperience(player, block, 0 , 0);
@@ -208,6 +209,16 @@ public class SkyToolsManager {
             }
         }
         else ret.getDrops().forEach(drop -> player.getWorld().dropItem(block.getLocation(), drop));
+    }
+
+    public void applyDurability(ItemStack item, Player player)
+    {
+        ItemMeta meta = item.getItemMeta();
+        if (new Random().nextInt(10) % 2 == 0 && hasUpgrade(item, SkyToolUpgradeType.DURABILITY))
+            return;
+        skyToolDurabilityManager.removeDurability(meta, 1);
+        item.setItemMeta(meta);
+        player.getInventory().setItemInMainHand(skyToolDurabilityManager.updateDurabilityLore(item));
     }
 
     public ConfigUtils getToolsConfig() {

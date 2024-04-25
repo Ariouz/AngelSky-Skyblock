@@ -2,7 +2,10 @@ package fr.angelsky.skyblock.listeners.island;
 
 import com.bgsoftware.superiorskyblock.api.events.IslandDisbandEvent;
 import com.bgsoftware.superiorskyblock.api.wrappers.SuperiorPlayer;
+import fr.angelsky.angelskyapi.api.managers.luckperms.LuckPermsIntegrationManager;
 import fr.angelsky.skyblock.SkyblockInstance;
+import fr.angelsky.skyblock.managers.player.level.reward.LevelReward;
+import fr.angelsky.skyblock.managers.player.level.reward.LevelRewardType;
 import fr.angelsky.skyblockapi.accounts.TempPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -33,6 +36,14 @@ public class IslandDisbandListener implements Listener {
         tempPlayer.getPlayerLevel().setLevel(0);
         tempPlayer.getPlayerLevel().setLevelRank(0);
         tempPlayer.saveAccount();
+
+        LuckPermsIntegrationManager luckPermsIntegrationManager = skyblockInstance.getAngelSkyApiInstance().getApiManager().getLuckPermsIntegrationManager();
+        for (LevelReward levelReward : skyblockInstance.getManagerLoader().getLevelManager().getLevelRewardManager().getLevelRewards())
+        {
+            if (levelReward.getType() != LevelRewardType.PERMISSION) continue;
+            luckPermsIntegrationManager.removePermission(player.getUniqueId(), levelReward.getData());
+        }
+        luckPermsIntegrationManager.removePermission(player.getUniqueId(), "angelsky.coalitions.access");
     }
 
 }

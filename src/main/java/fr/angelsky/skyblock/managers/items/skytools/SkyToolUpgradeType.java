@@ -8,6 +8,7 @@ public enum SkyToolUpgradeType {
     HARVEST("skytool_harvest_upgrade", "Replantation", "harvest"),
     MAGNET("skytool_magnet_upgrade", "Magnet", "magnet"),
     AUTOSELL("skytool_autosell_upgrade", "Vente automatique", "autosell"),
+    DURABILITY("skytool_durability_upgrade", "Solidité", "durability"),
 
     ;
 
