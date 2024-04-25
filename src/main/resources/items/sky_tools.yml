@@ -1,3 +1,4 @@
+durability_display: "<white>Durabilité: <green>%durability%<gray>/<green>%max_durability%"
 test_pickaxe:
   display: "<red>Hello World"
   material: "oraxen:angelium_pickaxe"

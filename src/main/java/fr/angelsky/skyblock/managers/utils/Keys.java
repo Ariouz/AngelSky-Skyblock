@@ -13,6 +13,9 @@ public class Keys {
     public NamespacedKey SKYTOOL_MAGNET_UPGRADE;
     public NamespacedKey SKYTOOL_AUTOSELL_UPGRADE;
 
+    public NamespacedKey SKYTOOL_MAX_DURABILITY;
+    public NamespacedKey SKYTOOL_DURABILITY;
+
     public Keys(SkyblockInstance skyblockInstance)
     {
         this.skyblockInstance = skyblockInstance;
@@ -26,6 +29,9 @@ public class Keys {
         SKYTOOL_HARVEST_UPGRADE = new NamespacedKey(skyblockInstance.getSkyblock(), "skytool_harvest_upgrade");
         SKYTOOL_MAGNET_UPGRADE = new NamespacedKey(skyblockInstance.getSkyblock(), "skytool_magnet_upgrade");
         SKYTOOL_AUTOSELL_UPGRADE = new NamespacedKey(skyblockInstance.getSkyblock(), "skytool_autosell_upgrade");
+
+        SKYTOOL_MAX_DURABILITY = new NamespacedKey(skyblockInstance.getSkyblock(), "skytool_max_durability");
+        SKYTOOL_DURABILITY = new NamespacedKey(skyblockInstance.getSkyblock(), "skytool_durability");
     }
 
 }

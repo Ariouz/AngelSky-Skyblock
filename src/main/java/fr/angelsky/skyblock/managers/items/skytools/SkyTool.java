@@ -40,7 +40,14 @@ public class SkyTool {
         meta.getPersistentDataContainer().set(skyblockInstance.getKeys().SKYTOOL, PersistentDataType.BOOLEAN, true);
 
         upgrades.forEach(upgrade -> skyblockInstance.getManagerLoader().getSkyToolsManager().setUpgrade(meta, upgrade.getType(), upgrade.getValue()));
+
+        SkyToolDurabilityManager durabilityManager = skyblockInstance.getManagerLoader().getSkyToolsManager().getSkyToolDurabilityManager();
+        durabilityManager.setMaxDurability(meta, 10);
+        durabilityManager.setDurability(meta, durabilityManager.getMaxDurability(meta));
+
         itemStack.setItemMeta(meta);
+
+        itemStack = durabilityManager.insertDurabilityLore(itemStack);
         return itemStack;
     }
 

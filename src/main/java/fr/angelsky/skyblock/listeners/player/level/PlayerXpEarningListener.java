@@ -43,8 +43,7 @@ public class PlayerXpEarningListener implements Listener {
 
         if (event.isSkyTool())
         {
-            List<SkyToolUpgrade> upgrades = skyblockInstance.getManagerLoader().getSkyToolsManager().getUpgrades(hand);
-            skyblockInstance.getManagerLoader().getSkyToolsManager().applyUpgrades(upgrades, player, block, hand, event);
+            skyblockInstance.getManagerLoader().getSkyToolsManager().applyUpgrades(player, block, hand, event);
             event.setCancelled(true);
             event.setDropItems(false);
         }

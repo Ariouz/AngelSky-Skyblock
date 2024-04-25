@@ -4,7 +4,10 @@ import fr.angelsky.angelskyapi.api.utils.file.ConfigUtils;
 import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblock.listeners.player.items.skytools.SkyToolBlockBreakEvent;
 import fr.angelsky.skyblock.managers.items.skytools.upgrades.*;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -24,16 +27,19 @@ import java.util.Objects;
 public class SkyToolsManager {
 
     private final SkyblockInstance skyblockInstance;
+    private final SkyToolDurabilityManager skyToolDurabilityManager;
     private final ArrayList<SkyTool> tools = new ArrayList<>();
     private final ConfigUtils toolsConfig;
 
     public SkyToolsManager(SkyblockInstance skyblockInstance){
         this.skyblockInstance = skyblockInstance;
         this.toolsConfig = new ConfigUtils(skyblockInstance.getSkyblock(), "items", "sky_tools.yml");
+        this.skyToolDurabilityManager = new SkyToolDurabilityManager(skyblockInstance);
     }
 
     public void loadTools()
     {
+        skyToolDurabilityManager.init();
         for (String toolId : toolsConfig.getYamlConfiguration().getKeys(false))
         {
             ConfigurationSection toolSection = toolsConfig.getYamlConfiguration().getConfigurationSection(toolId);
@@ -122,7 +128,7 @@ public class SkyToolsManager {
 
     public void setUpgrade(ItemMeta meta, SkyToolUpgradeType type, int value)
     {
-        PersistentDataContainer dataContainer =meta.getPersistentDataContainer();
+        PersistentDataContainer dataContainer = meta.getPersistentDataContainer();
         switch (type){
             case RADIUS ->
                 dataContainer.set(skyblockInstance.getKeys().SKYTOOL_RADIUS_UPGRADE, PersistentDataType.INTEGER, value);
@@ -151,9 +157,20 @@ public class SkyToolsManager {
         return tools;
     }
 
-    public void applyUpgrades(List<SkyToolUpgrade> upgrades, Player player, Block block, ItemStack item, SkyToolBlockBreakEvent event) {
+    public void applyUpgrades(Player player, Block block, ItemStack item, SkyToolBlockBreakEvent event) {
         SkyToolUpgradeReturnValues ret = null;
         Material baseType = block.getType(); // TYPE BACKUP
+
+        if (skyToolDurabilityManager.getDurability(item.getItemMeta()) == 0)
+        {
+            player.sendActionBar(Component.text("Outil cassé").color(TextColor.color(ChatColor.RED.getColor().getRGB())));
+            return ;
+        }
+
+        ItemMeta meta = item.getItemMeta();
+        skyToolDurabilityManager.removeDurability(meta, 1);
+        item.setItemMeta(meta);
+        player.getInventory().setItemInMainHand(skyToolDurabilityManager.updateDurabilityLore(item));
 
         if (!hasUpgrade(item, SkyToolUpgradeType.RADIUS))
         {
@@ -191,5 +208,13 @@ public class SkyToolsManager {
             }
         }
         else ret.getDrops().forEach(drop -> player.getWorld().dropItem(block.getLocation(), drop));
+    }
+
+    public ConfigUtils getToolsConfig() {
+        return toolsConfig;
+    }
+
+    public SkyToolDurabilityManager getSkyToolDurabilityManager() {
+        return skyToolDurabilityManager;
     }
 }
