@@ -1,13 +1,13 @@
 package fr.angelsky.skyblock.menus.main;
 
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI;
-import com.bgsoftware.superiorskyblock.api.island.SortingType;
 import dev.dbassett.skullcreator.SkullCreator;
 import fr.angelsky.angelskyapi.api.utils.HexColors;
 import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblockapi.accounts.TempPlayer;
 import fr.mrmicky.fastinv.FastInv;
 import fr.mrmicky.fastinv.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -85,20 +85,18 @@ public class MainMenu {
                 )
                 .build();
 
-        ItemStack islandTop = SkullCreator.itemFromUrl("https://textures.minecraft.net/texture/438cf3f8e54afc3b3f91d20a49f324dca1486007fe545399055524c17941f4dc");
-        SkullMeta islandTopMeta = (SkullMeta) islandTop.getItemMeta();
-        islandTopMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&r&e&lTop des Îles"));
-        islandTopMeta.setLore(
-                Arrays.asList(
-                        ChatColor.translateAlternateColorCodes('&', "&a"),
-                        ChatColor.translateAlternateColorCodes('&', "&7» Accedez au classement des Îles:"),
-                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Top niveau d'Île"),
-                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Top banque d'Île"),
-                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Top note d'Île"),
-                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Top nombre de membres"),
+        ItemStack coalitions = new ItemBuilder(Material.SHIELD)
+                .name(skyblockInstance.getManagerLoader().getMessageManager().getColorizedMessage("##EE587A#&lCoalitions"))
+                .lore(ChatColor.translateAlternateColorCodes('&', "&a"),
+                        ChatColor.translateAlternateColorCodes('&', "&7» Ouvrez le menu des coalitions"),
+                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Rejoignez votre cité"),
+                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Participez aux events"),
+                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Complétez des quêtes supplémentaires"),
+                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Obtenez de nouveaux items"),
+                        ChatColor.translateAlternateColorCodes('&', "&7»   &f• &7Accédez à de nouvelles zones"),
                         ChatColor.translateAlternateColorCodes('&', "&7")
-                ));
-        islandTop.setItemMeta(islandTopMeta);
+                )
+                .build();
 
         ItemStack enderchest = new ItemBuilder(Material.ENDER_CHEST)
                 .name(ChatColor.translateAlternateColorCodes('&', "&5&lEnderChest"))
@@ -190,12 +188,12 @@ public class MainMenu {
             player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
         });
 
-        fastInv.setItem(31, islandTop, event -> {
-            SuperiorSkyblockAPI.getMenus().openTopIslands(tempPlayer.getSuperiorPlayer(), null, SortingType.getByName(SuperiorSkyblockAPI.getSuperiorSkyblock().getSettings().getIslandTopOrder()));
+        fastInv.setItem(25, coalitions, event -> {
+            Bukkit.dispatchCommand(player, "coalitions");
             player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
         });
 
-        fastInv.setItem(25, enderchest, event -> {
+        fastInv.setItem(31, enderchest, event -> {
             player.openInventory(player.getEnderChest());
             player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, 30, 30);
         });
