@@ -4,6 +4,8 @@ import fr.angelsky.angelskyapi.api.accounts.TempPlayerAccount;
 import fr.angelsky.angelskyapi.api.enums.rank.Rank;
 import fr.angelsky.angelskyapi.api.utils.math.NumbersSeparator;
 import fr.angelsky.angelskyapi.fastboard.FastBoard;
+import fr.angelsky.angelskycoalitions.coalition.Coalition;
+import fr.angelsky.angelskycoalitions.coalition.CoalitionPlayer;
 import fr.angelsky.skyblock.SkyblockInstance;
 import fr.angelsky.skyblock.managers.utils.voteparty.VoteParty;
 import fr.angelsky.skyblockapi.accounts.TempPlayer;
@@ -45,15 +47,13 @@ public class ScoreboardManager {
         Rank rank = playerAccount.getRank();
         TempPlayer tempPlayer = skyblockInstance.getTempAccounts().get(player.getName());
         VoteParty voteParty = skyblockInstance.getManagerLoader().getVotePartyManager().getVoteParty();
+        CoalitionPlayer coalitionPlayer = skyblockInstance.getAngelSkyCoalitions().getManagerLoader().getCoalitionManager().getCoalitionPlayer(player);
+        Coalition coalition = coalitionPlayer.getCoalition();
         String playerLevel;
 
-        if(tempPlayer.getPlayerLevel().isMaxRank()){
-            playerLevel = LevelRankManager.getMaxRankTag();
-        }
-        else {
-            playerLevel = tempPlayer.getPlayerLevel().getLevelRankObject().getDisplay() + "[" + tempPlayer.getPlayerLevel().getLevelColor() + tempPlayer.getPlayerLevel().getLevel() +
+        if(tempPlayer.getPlayerLevel().isMaxRank()) playerLevel = LevelRankManager.getMaxRankTag();
+        else playerLevel = tempPlayer.getPlayerLevel().getLevelRankObject().getDisplay() + "[" + tempPlayer.getPlayerLevel().getLevelColor() + tempPlayer.getPlayerLevel().getLevel() +
                     tempPlayer.getPlayerLevel().getLevelRankObject().getDisplay() + "]";
-        }
         lines.add("");
         lines.add(ChatColor.WHITE + "" + ChatColor.BOLD + "Compte"+ChatColor.GRAY+":");
         lines.add(ChatColor.YELLOW + "" + "  »  "+ChatColor.WHITE+" Grade"+ChatColor.GRAY+": " + rank.getDisplay());
@@ -61,6 +61,7 @@ public class ScoreboardManager {
         lines.add(ChatColor.YELLOW + "" + "  »  "+ChatColor.WHITE+" AngelCoins"+ChatColor.GRAY+": " + ChatColor.GRAY + NumbersSeparator.LanguageFormatter.USA.convert((int) skyblockInstance.getSkyBlockApiInstance().getEconomy().getBalance(player), 3) + " " + SkyblockInstance.COIN);
         lines.add(ChatColor.YELLOW + "" + "  »  "+ChatColor.WHITE+" Progression"+ChatColor.GRAY+": " + (tempPlayer.getPlayerLevel().isMaxRank() ? ChatColor.RED + "Niveau Max" : tempPlayer.getPlayerLevel().getLevel() + "" + ChatColor.WHITE + "/" + ChatColor.GRAY + PlayerLevel.getMaxLevelPerRank()));
         lines.add("       " + playerLevel + ChatColor.GRAY + " » " + (tempPlayer.getPlayerLevel().isMaxRank() ? ChatColor.RED + "Niveau Max" : tempPlayer.getBarProgress(30, '|', ChatColor.GREEN, ChatColor.RED)));
+        lines.add(ChatColor.YELLOW + "" + "  »  "+ChatColor.WHITE+" Coalition"+ChatColor.GRAY+": " + ChatColor.WHITE + coalition.getOraxenBannerChar() + " " + skyblockInstance.getAngelSkyApiInstance().getColorizedMessage(coalition.getCoalitionType().getHexColor() + coalition.getCoalitionType().getDisplay()));
         lines.add("");
         lines.add(ChatColor.WHITE + "" + ChatColor.BOLD + "Île"+ChatColor.GRAY+":");
         lines.add(ChatColor.YELLOW + "" + "  »  "+ChatColor.WHITE+" Niveau"+ChatColor.GRAY+": " + (tempPlayer.getIsland() == null ? ChatColor.RED + "✘" : tempPlayer.getIsland().getIslandLevel().intValue()));

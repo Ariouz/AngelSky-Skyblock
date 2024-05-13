@@ -10,6 +10,7 @@ depend:
   - SkyblockAPI
   - AngelSkyEconomy
   - Oraxen
+  - AngelSkyCoalitions
 commands:
   lobby:
     description: Retourner au lobby

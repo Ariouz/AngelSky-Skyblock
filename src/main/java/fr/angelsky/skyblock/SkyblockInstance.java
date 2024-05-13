@@ -2,6 +2,7 @@ package fr.angelsky.skyblock;
 
 import fr.angelsky.angelskyapi.AngelskyApi;
 import fr.angelsky.angelskyapi.api.AngelSkyApiInstance;
+import fr.angelsky.angelskycoalitions.AngelSkyCoalitions;
 import fr.angelsky.skyblock.managers.ManagerLoader;
 import fr.angelsky.skyblock.managers.utils.Keys;
 import fr.angelsky.skyblockapi.SkyblockApi;
@@ -23,6 +24,7 @@ public class SkyblockInstance {
     private final Skyblock skyblock;
     private SkyBlockApiInstance skyBlockApiInstance;
     private AngelSkyApiInstance angelSkyApiInstance;
+    private AngelSkyCoalitions angelSkyCoalitions;
 
     private final HashMap<String, TempPlayer> tempAccounts = new HashMap<>();
 
@@ -52,6 +54,14 @@ public class SkyblockInstance {
             skyblock.getLogger().info("Instance SkyblockAPI récupérée");
         }else{
             throw new Exception("L'API Skyblock n'est pas détéctée !");
+        }
+
+        if(Bukkit.getPluginManager().getPlugin("AngelSkyCoalitions") != null){
+            this.angelSkyCoalitions = (AngelSkyCoalitions) Bukkit.getPluginManager().getPlugin("AngelSkyCoalitions");
+            assert angelSkyCoalitions != null;
+            skyblock.getLogger().info("Instance AngelSkyCoalitions récupérée");
+        }else{
+            throw new Exception("AngelSkyCoalitions n'est pas détéctée !");
         }
 
         FastInvManager.register(this.skyblock);
@@ -115,6 +125,11 @@ public class SkyblockInstance {
 
     public HashMap<String, TempPlayer> getTempAccounts() {
         return this.tempAccounts;
+    }
+
+    public AngelSkyCoalitions getAngelSkyCoalitions()
+    {
+        return this.angelSkyCoalitions;
     }
 
     public static String translateChatColorHex(String stringOfTranslate) {
